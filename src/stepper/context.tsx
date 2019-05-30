@@ -11,12 +11,15 @@ export interface StepData {}
 export interface StepConfig {
   title: string;
   children: React.ReactChild;
-  index?: Index;
-  stepId?: StepId;
+}
+
+export interface StepState {
+  index: Index;
+  data?: StepData;
+  error?: StepError;
   disabled?: boolean;
   completed?: boolean;
-  error?: StepError;
-  data?: StepData;
+  config: StepConfig;
 }
 
 export namespace Actions {
@@ -25,34 +28,36 @@ export namespace Actions {
   export type SetData = (data: StepData) => void;
   export type CreateStep = (config: StepConfig) => Promise<StepId>;
   export type RemoveStep = (stepId: StepId) => void;
-  export type Go = (index: Index) => void;
+  export type goAt = (index: Index) => void;
 }
 
 export namespace Selectors {
-  export type GetSteps = () => StepConfig[];
-  export type GetCurrentStep = () => StepConfig | undefined;
+  export type GetSteps = () => StepState[];
+  export type GetCurrentStep = () => StepState | undefined;
 }
 
 interface StepperContext {
   isLoading: boolean;
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
-  go: Actions.Go;
+  goAt: Actions.goAt;
+  resolve: Actions.Resolve;
+  reject: Actions.Reject;
   getSteps: Selectors.GetSteps;
   getCurrentStep: Selectors.GetCurrentStep;
 }
 
+const contextFallback = () => {
+  throw new Error("createStep invoked outside of Stepper scope");
+};
+
 export const Context = React.createContext<StepperContext>({
   isLoading: false,
-  createStep: () => {
-    throw new Error("createStep invoked outside of Stepper scope");
-  },
-  removeStep: () => {
-    throw new Error("createStep invoked outside of Stepper scope");
-  },
-  go: () => {
-    throw new Error("createStep invoked outside of Stepper scope");
-  },
+  createStep: contextFallback,
+  removeStep: contextFallback,
+  goAt: contextFallback,
+  resolve: contextFallback,
+  reject: contextFallback,
   getSteps: () => [],
   getCurrentStep: () => undefined,
 });
@@ -65,7 +70,7 @@ interface State {
   current: StepId,
   index: StepId,
   steps: {
-    [key: number]: StepConfig,
+    [key: number]: StepState,
   },
 }
 
@@ -86,7 +91,10 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
           ...state,
           steps: {
             ...state.steps,
-            [state.index]: config,
+            [state.index]: {
+              config,
+              index: state.index,
+            }
           },
           index: state.index + 1,
         });
@@ -108,7 +116,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
   };
 
 
-  const go: Actions.Go = index => {
+  const goAt: Actions.goAt = index => {
     setState(state => ({
       ...state,
       current: index,
@@ -126,13 +134,46 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
     return state.steps[state.current]
   };
 
+  const resolve: Actions.Resolve = (data) => {
+    setState(({ current, steps, ...state }) => ({
+      ...state,
+      current: current + 1,
+      steps: {
+        ...steps,
+        [current]: {
+          ...steps[current],
+          data,
+          completed: true,
+          error: undefined,
+        }
+      },
+    }));
+  };
+
+  const reject: Actions.Reject = (error) => {
+    setState(({ current, steps, ...state }) => ({
+      ...state,
+      current: current - 1,
+      steps: {
+        ...steps,
+        [current]: {
+          ...steps[current],
+          completed: false,
+          error,
+        }
+      },
+    }));
+  };
+
   const context = {
     isLoading,
     createStep,
     removeStep,
     getSteps,
     getCurrentStep,
-    go,
+    goAt,
+    resolve,
+    reject,
   };
 
   return (

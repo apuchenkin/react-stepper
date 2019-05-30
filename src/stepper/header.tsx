@@ -7,8 +7,8 @@ interface Props {
 }
 
 const Header: React.FunctionComponent<Props> = ({ index, title }) => {
-  const { go } = React.useContext(Context);
-  return <header onClick={() => go(index)}>{title}</header>;
+  const { goAt } = React.useContext(Context);
+  return <header onClick={() => goAt(index)}>{title}</header>;
 };
 
 export default Header;
