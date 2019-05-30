@@ -1,11 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import Example from "./example";
 
-const Hello = () => (
-  <h1>React stepper</h1>
-);
-
-ReactDOM.render(
-  <Hello />,
-  document.getElementById("root")
-);
+ReactDOM.render(<Example />, document.getElementById("root"));
