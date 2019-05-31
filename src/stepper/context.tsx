@@ -1,10 +1,8 @@
 import * as React from "react";
 
-export type Index = number;
+export type StepIndex = number;
 
 export type StepError = Error;
-
-export type StepId = number;
 
 export interface StepData {}
 
@@ -14,7 +12,7 @@ export interface StepConfig {
 }
 
 export interface StepState {
-  index: Index;
+  index: StepIndex;
   data?: StepData;
   error?: StepError;
   disabled?: boolean;
@@ -26,14 +24,16 @@ export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
   export type SetData = (data: StepData) => void;
-  export type CreateStep = (config: StepConfig) => Promise<StepId>;
-  export type RemoveStep = (stepId: StepId) => void;
-  export type goAt = (index: Index) => void;
+  export type CreateStep = (config: StepConfig) => Promise<StepIndex>;
+  export type RemoveStep = (index: StepIndex) => void;
+  export type goAt = (index: StepIndex) => void;
 }
 
 export namespace Selectors {
   export type GetSteps = () => StepState[];
   export type GetCurrentStep = () => StepState | undefined;
+  export type GetStep = (index: StepIndex) => StepState | undefined;
+  export type GetData = (index: StepIndex) => StepData | undefined;
 }
 
 interface StepperContext {
@@ -45,6 +45,8 @@ interface StepperContext {
   reject: Actions.Reject;
   getSteps: Selectors.GetSteps;
   getCurrentStep: Selectors.GetCurrentStep;
+  getStep: Selectors.GetStep;
+  getData: Selectors.GetData;
 }
 
 const contextFallback = () => {
@@ -60,6 +62,8 @@ export const Context = React.createContext<StepperContext>({
   reject: contextFallback,
   getSteps: () => [],
   getCurrentStep: () => undefined,
+  getStep: () => undefined,
+  getData: () => undefined,
 });
 
 interface Props {
@@ -67,8 +71,8 @@ interface Props {
 }
 
 interface State {
-  current: StepId,
-  index: StepId,
+  current: StepIndex,
+  index: StepIndex,
   steps: {
     [key: number]: StepState,
   },
@@ -77,8 +81,8 @@ interface State {
 const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
   const isLoading = false;
   const [state, setState] = React.useState<State>({
-    current: 0,
-    index: 0,
+    current: 1,
+    index: 1,
     steps: {}
   });
 
@@ -130,11 +134,18 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
     );
   };
 
-  const getCurrentStep: Selectors.GetCurrentStep = () => {
-    return state.steps[state.current]
+  const getStep: Selectors.GetStep = index => state.steps[index];
+
+  const getCurrentStep: Selectors.GetCurrentStep = () => getStep(state.current);
+
+  const getData: Selectors.GetData = index => {
+    const state = getStep(index);
+    return state && state.data;
   };
 
   const resolve: Actions.Resolve = (data) => {
+    console.log(state.current);
+
     setState(({ current, steps, ...state }) => ({
       ...state,
       current: current + 1,
@@ -170,10 +181,12 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
     createStep,
     removeStep,
     getSteps,
+    getStep,
     getCurrentStep,
     goAt,
     resolve,
     reject,
+    getData,
   };
 
   return (

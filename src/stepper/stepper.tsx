@@ -7,12 +7,15 @@ const Stepper: React.FunctionComponent = ({ children }) => (
   <StepperProvider>
     {({ getSteps, getCurrentStep }) => {
       var step = getCurrentStep();
+      console.log(step);
 
       return (
         <div className="stepper">
-          {getSteps().map(step => (
-            <Header title={step.config.title} index={step.index} />
-          ))}
+          <header className="stepper__head">
+            {getSteps().map(step => (
+              <Header key={step.index} title={step.config.title} index={step.index} />
+            ))}
+          </header>
           {step && (
             <StepperContent error={step.error}>
               {step.config.children}

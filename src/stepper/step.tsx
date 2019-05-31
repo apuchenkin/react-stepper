@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Context, StepConfig, StepId } from "./context";
+import { Context, StepConfig } from "./context";
 
 interface Props extends StepConfig {}
 
