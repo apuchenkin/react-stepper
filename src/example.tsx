@@ -1,35 +1,21 @@
 import * as React from "react";
-import Stepper, { Step, StepperContext } from "./stepper";
-
-const Step1 = () => {
-  const { resolve, getData } = React.useContext(StepperContext);
-  const data = getData(1);
-  const onClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    setTimeout(() => {
-      resolve('step 1 static data resolved');
-    }, 100)
-  }
-
-  return (
-    <>
-      Step 1 content:
-      <pre>{data}</pre>
-      <button onClick={onClick}>continue</button>
-    </>
-  )
-}
+import Stepper, { Step } from "./stepper";
+import { Step1, Step2, Step3 } from "./steps";
 
 const StepperExample: React.FunctionComponent = () => (
-  <Stepper>
+  <Stepper
+    onComplete={context => {
+      alert(`completed ${context.getData(3)}`);
+    }}
+  >
     <Step title="Step 1">
       <Step1 />
     </Step>
     <Step title="Step 2">
-      Step 2 content
+      <Step2 />
     </Step>
     <Step title="Step 3">
-      Step 3 content
+      <Step3 />
     </Step>
   </Stepper>
 );

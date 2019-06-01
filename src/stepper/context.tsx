@@ -4,7 +4,8 @@ export type StepIndex = number;
 
 export type StepError = Error;
 
-export interface StepData {}
+// TODO: could this typing be constrainted?
+type StepData = any;
 
 export interface StepConfig {
   title: string;
@@ -36,7 +37,7 @@ export namespace Selectors {
   export type GetData = (index: StepIndex) => StepData | undefined;
 }
 
-interface StepperContext {
+export interface StepperContext {
   isLoading: boolean;
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
@@ -63,22 +64,23 @@ export const Context = React.createContext<StepperContext>({
   getSteps: () => [],
   getCurrentStep: () => undefined,
   getStep: () => undefined,
-  getData: () => undefined,
+  getData: () => undefined
 });
 
 interface Props {
   children: (context: StepperContext) => React.ReactNode;
+  onComplete: (context: StepperContext) => void;
 }
 
 interface State {
-  current: StepIndex,
-  index: StepIndex,
+  current: StepIndex;
+  index: StepIndex;
   steps: {
-    [key: number]: StepState,
-  },
+    [key: number]: StepState;
+  };
 }
 
-const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
+const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children }) => {
   const isLoading = false;
   const [state, setState] = React.useState<State>({
     current: 1,
@@ -87,7 +89,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
   });
 
   const createStep: Actions.CreateStep = config => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setState(state => {
         resolve(state.index);
 
@@ -97,40 +99,40 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
             ...state.steps,
             [state.index]: {
               config,
-              index: state.index,
+              index: state.index
             }
           },
-          index: state.index + 1,
-        });
+          index: state.index + 1
+        })
       });
-    })
-
+    });
   };
 
   const removeStep: Actions.RemoveStep = stepId => {
+    debugger;
     console.log(stepId);
 
     setState(state => ({
       ...state,
       steps: Object.keys(state.steps).reduce(
-        (acc, id) => Number(id) === stepId ? acc : ({ ...acc, [id]: state.steps[Number(id)] }),
-        {},
-      ),
+        (acc, id) =>
+          Number(id) === stepId
+            ? acc
+            : { ...acc, [id]: state.steps[Number(id)] },
+        {}
+      )
     }));
   };
 
-
-  const goAt: Actions.goAt = index => {
-    setState(state => ({
-      ...state,
-      current: index,
-    }))
-  };
+  const goAt: Actions.goAt = index => setState(state => ({
+    ...state,
+    current: index
+  }));
 
   const getSteps: Selectors.GetSteps = () => {
     return Object.keys(state.steps).reduce(
       (acc, id) => [...acc, state.steps[Number(id)]],
-      [],
+      []
     );
   };
 
@@ -143,9 +145,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
     return state && state.data;
   };
 
-  const resolve: Actions.Resolve = (data) => {
-    console.log(state.current);
-
+  const resolve: Actions.Resolve = data => {
     setState(({ current, steps, ...state }) => ({
       ...state,
       current: current + 1,
@@ -155,26 +155,32 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
           ...steps[current],
           data,
           completed: true,
-          error: undefined,
+          error: undefined
         }
-      },
+      }
     }));
   };
 
-  const reject: Actions.Reject = (error) => {
-    setState(({ current, steps, ...state }) => ({
-      ...state,
-      current: current - 1,
-      steps: {
-        ...steps,
-        [current]: {
-          ...steps[current],
-          completed: false,
-          error,
-        }
-      },
-    }));
-  };
+  React.useEffect(() => {
+    const count = Object.keys(state.steps).length;
+
+    if (count && state.current > count) {
+      onComplete(context);
+    }
+  }, [state.current]);
+
+  const reject: Actions.Reject = error => setState(({ current, steps, ...state }) => ({
+    ...state,
+    current: current,
+    steps: {
+      ...steps,
+      [current]: {
+        ...steps[current],
+        completed: false,
+        error
+      }
+    }
+  }));
 
   const context = {
     isLoading,
@@ -186,7 +192,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ children }) => {
     goAt,
     resolve,
     reject,
-    getData,
+    getData
   };
 
   return (
