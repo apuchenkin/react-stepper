@@ -24,11 +24,12 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
         [`${CLASS_NAME}--completed`]: completed,
         [`${CLASS_NAME}--error`]: error,
         [`${CLASS_NAME}--active`]: active,
-        [`${CLASS_NAME}--disabled`]: disabled,
+        [`${CLASS_NAME}--disabled`]: disabled || !enabled,
         [`${CLASS_NAME}--enabled`]: enabled
       })}
       onClick={!disabled && enabled ? () => goAt(index) : undefined}
     >
+      <span className={`${CLASS_NAME}__index`}>{index}</span>
       {title}
     </button>
   );

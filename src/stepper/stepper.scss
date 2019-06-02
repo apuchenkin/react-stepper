@@ -1,0 +1,45 @@
+$color_accent: blue;
+$color_success: green;
+$color_error: coral;
+$color_header: grey;
+$color_background: lightgrey;
+$head_size: 48px;
+
+.stepper {
+  background: $color_background;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: grey;
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    border: 0;
+    cursor: pointer;
+
+    &--disabled {
+      cursor: default;
+    }
+
+    &--disabled &__index {
+      background: $color_header;
+    }
+
+    &__index {
+      background: $color_accent;
+      width: $head_size;
+      height: $head_size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $head_size;
+      margin-right: 12px;
+    }
+  }
+}
