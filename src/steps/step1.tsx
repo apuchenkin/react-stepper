@@ -1,14 +1,22 @@
 import * as React from "react";
 import { StepperContext } from "../stepper";
+import { LoadingContext } from "../loadingContext";
+
+const STEP_INDEX = 1;
 
 const Step1 = () => {
   const { resolve, getData } = React.useContext(StepperContext);
-  const data = getData(1);
+  const { setLoading } = React.useContext(LoadingContext);
+
+  const data = getData(STEP_INDEX);
+
   const onClick = (event: React.MouseEvent) => {
     event.preventDefault();
+    setLoading(STEP_INDEX, true);
     setTimeout(() => {
       resolve("step 1 static data resolved");
-    }, 100);
+      setLoading(STEP_INDEX, false);
+    }, 1000);
   };
 
   return (

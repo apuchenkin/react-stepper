@@ -18,14 +18,15 @@ export interface StepState {
   error?: StepError;
   disabled?: boolean;
   completed?: boolean;
+  loading: boolean;
   config: StepConfig;
 }
 
 export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
-  export type SetData = (data: StepData) => void;
   export type CreateStep = (config: StepConfig) => Promise<StepIndex>;
+  export type UpdateStep = (index: StepIndex, state: Partial<StepState>) => void;
   export type RemoveStep = (index: StepIndex) => void;
   export type goAt = (index: StepIndex) => void;
 }
@@ -41,6 +42,7 @@ export interface StepperContext {
   isLoading: boolean;
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
+  updateStep: Actions.UpdateStep;
   goAt: Actions.goAt;
   resolve: Actions.Resolve;
   reject: Actions.Reject;
@@ -58,6 +60,7 @@ export const Context = React.createContext<StepperContext>({
   isLoading: false,
   createStep: contextFallback,
   removeStep: contextFallback,
+  updateStep: contextFallback,
   goAt: contextFallback,
   resolve: contextFallback,
   reject: contextFallback,
@@ -99,7 +102,8 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
             ...state.steps,
             [state.index]: {
               config,
-              index: state.index
+              index: state.index,
+              loading: false,
             }
           },
           index: state.index + 1
@@ -123,6 +127,17 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
       )
     }));
   };
+
+  const updateStep: Actions.UpdateStep = (index, stepState) => setState(state => ({
+    ...state,
+    steps: {
+      ...state.steps,
+      [index]: {
+        ...state.steps[index],
+        ...stepState,
+      }
+    },
+  }));
 
   const goAt: Actions.goAt = index => setState(state => ({
     ...state,
@@ -186,6 +201,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
     isLoading,
     createStep,
     removeStep,
+    updateStep,
     getSteps,
     getStep,
     getCurrentStep,

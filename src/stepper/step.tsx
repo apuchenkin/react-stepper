@@ -1,19 +1,32 @@
 import * as React from "react";
 import { Context, StepConfig } from "./context";
 
-interface Props extends StepConfig {}
+interface Props extends StepConfig {
+  loading: boolean;
+}
 
 const Step: React.FunctionComponent<Props> = props => {
   const [stepId, setStepId] = React.useState(null);
-  const { createStep, removeStep } = React.useContext(Context);
+  const { createStep, removeStep, updateStep } = React.useContext(Context);
 
-  const onMount = React.useMemo(() => {
+  React.useEffect(() => {
     createStep(props).then(setStepId);
-  }, []);
 
-  const onUnmount = React.useMemo(() => {
     return () => stepId && removeStep(stepId);
   }, []);
+
+  React.useEffect(() => {
+    if (stepId) {
+      updateStep(stepId, {
+        loading: props.loading,
+      });
+    }
+
+  }, [props.loading]);
+
+  // React.useEffect(() => {
+
+  // }, []);
 
   return null;
 };

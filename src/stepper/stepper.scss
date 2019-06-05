@@ -27,12 +27,24 @@ $head_size: 48px;
       cursor: default;
     }
 
+    &--loading &__index {
+      background: yellow !important;
+    }
+
+    &--active &__index {
+      background: $color_accent;
+    }
+
     &--disabled &__index {
       background: $color_header;
     }
 
+    &--completed &__index {
+      background: $color_success;
+    }
+
     &__index {
-      background: $color_accent;
+      background: $color_header;
       width: $head_size;
       height: $head_size;
       display: flex;
