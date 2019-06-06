@@ -2,6 +2,7 @@ import * as React from "react";
 import { Context, StepConfig } from "./context";
 
 interface Props extends StepConfig {
+  data?: any;
   loading: boolean;
 }
 
@@ -23,10 +24,6 @@ const Step: React.FunctionComponent<Props> = props => {
     }
 
   }, [props.loading]);
-
-  // React.useEffect(() => {
-
-  // }, []);
 
   return null;
 };

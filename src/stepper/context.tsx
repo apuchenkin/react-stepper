@@ -4,12 +4,12 @@ export type StepIndex = number;
 
 export type StepError = Error;
 
-// TODO: could this typing be constrainted?
 type StepData = any;
 
 export interface StepConfig {
   title: string;
   children: React.ReactChild;
+  data?: StepData;
 }
 
 export interface StepState {
@@ -103,6 +103,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
             [state.index]: {
               config,
               index: state.index,
+              data: config.data,
               loading: false,
             }
           },
