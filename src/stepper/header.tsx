@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Context, StepIndex } from "./context";
 import classnames from "classnames";
-// import doneIcon from "../icons/baseline-done-24px.svg";
+import doneIcon from "../icons/baseline-done-24px.svg";
 
 interface Props {
   index: StepIndex;
@@ -31,7 +31,11 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
       })}
       onClick={!disabled && enabled ? () => goAt(index) : undefined}
     >
-      <span className={`${CLASS_NAME}__index`}>{index}</span>
+      <span className={`${CLASS_NAME}__index`}>{
+        completed
+          ? <img src={doneIcon} />
+          : index
+      }</span>
       {title}
     </button>
   );
