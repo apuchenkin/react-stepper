@@ -16,17 +16,22 @@ const Stepper: React.FunctionComponent<Props> = ({
 }) => (
   <StepperProvider onComplete={onComplete}>
     {({ getSteps, getCurrentStep }) => {
-      var step = getCurrentStep();
+      const step = getCurrentStep();
+      const steps = getSteps();
 
       return (
         <div className={classnames("stepper", className)}>
           <header className="stepper__header">
-            {getSteps().map(step => (
-              <Header
-                key={step.index}
-                title={step.config.title}
-                index={step.index}
-              />
+            {steps.map((step, idx) => (
+              <React.Fragment key={step.index}>
+                <Header
+                  title={step.config.title}
+                  index={step.index}
+                />
+                {idx + 1 < steps.length && (
+                  <hr className="stepper__header__connector" />
+                )}
+              </React.Fragment>
             ))}
           </header>
           {step && step.config.children}

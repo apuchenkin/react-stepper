@@ -1,9 +1,16 @@
-$color_accent: blue;
-$color_success: green;
+$font_scale: 1;
+
+$color_white: white;
+$color_grey_400: #bdbdbd !default;
+
+$color_accent: #2196f3 !default;
+$color_success: #4caf50 !default;
 $color_error: coral;
-$color_header: grey;
-$color_background: lightgrey;
-$head_size: 48px;
+
+$color_background: $color_white;
+$head_size: 24px;
+$head_height: 72px;
+$color_header_text: rgba(black, 87%);
 
 .stepper {
   background: $color_background;
@@ -12,16 +19,44 @@ $head_size: 48px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: grey;
+    background-color: $color_background;
+    justify-content: space-between;
+    height: $head_height;
+    box-shadow: 0 4px 4px -4px $color_grey_400;
+
+    &__connector {
+      border: 0;
+      height: 0;
+      border-top-width: 1px;
+      border-top-style: solid;
+      flex: auto;
+      min-width: 32px;
+      color: $color_grey_400;
+    }
   }
 
   &__head {
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 8px 12px;
+    height: $head_height;
     border: 0;
-    cursor: pointer;
+    background-color: $color_background;
+    color: rgba(black, 54%);
+    font-weight: 400;
+    font-size: 14px * $font_scale;
+    padding: 0 24px;
+
+    &:hover {
+      background-color: rgba(black, 6%);
+    }
+
+    &__icon {
+      width: 14px * $font_scale;
+      height: 14px * $font_scale;
+    }
 
     &--disabled {
       cursor: default;
@@ -31,12 +66,17 @@ $head_size: 48px;
       background: yellow !important;
     }
 
+    &--active {
+      color: rgba(black, 87%);
+      font-weight: 500;
+    }
+
     &--active &__index {
       background: $color_accent;
     }
 
     &--disabled &__index {
-      background: $color_header;
+      background: $color_grey_400;
     }
 
     &--completed &__index {
@@ -44,14 +84,16 @@ $head_size: 48px;
     }
 
     &__index {
-      background: $color_header;
+      background: rgba(black, 38%);
+      color: $color_white;
       width: $head_size;
       height: $head_size;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: $head_size;
-      margin-right: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+      font-size: 12px * $font_scale;
     }
   }
 }

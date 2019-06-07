@@ -8,6 +8,7 @@ const StepperExample: React.FunctionComponent = () => (
     <LoadingContext.Consumer>
       {({ isLoading }) => (
         <Stepper
+          style={{ width: '600px' }}
           onComplete={context => {
             alert(`completed ${context.getData(3)}`);
           }}
