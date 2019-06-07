@@ -1,28 +1,41 @@
+@import "@material/theme/color-palette";
+
+$mdc-theme-primary: $material-color-blue-500;
+$mdc-theme-secondary: #feeae6;
+$mdc-theme-on-primary: #442b2d;
+$mdc-theme-on-secondary: #442b2d;
+
+@import "@material/theme/mdc-theme";
+@import "@material/linear-progress/mdc-linear-progress";
+
 $font_scale: 1;
 
-$color_white: white;
-$color_grey_400: #bdbdbd !default;
+$color_success: $material-color-green-500 !default;
+$color_error: $material-color-red-500;
 
-$color_accent: #2196f3 !default;
-$color_success: #4caf50 !default;
-$color_error: coral;
-
-$color_background: $color_white;
 $head_size: 24px;
 $head_height: 72px;
 $color_header_text: rgba(black, 87%);
 
 .stepper {
-  background: $color_background;
+  background: mdc-theme-prop-value(surface);
+  border: 1px solid $material-color-grey-500;
+  box-shadow: 0 0 2px 2px $material-color-grey-400;
+  border-radius: 3px;
+  overflow: hidden;
+
+  &__progress {
+    position: absolute;
+  }
 
   &__header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: $color_background;
+    // background-color: $color_background;
     justify-content: space-between;
     height: $head_height;
-    box-shadow: 0 4px 4px -4px $color_grey_400;
+    box-shadow: 0 4px 4px -4px $material-color-grey-400;
 
     &__connector {
       border: 0;
@@ -31,7 +44,7 @@ $color_header_text: rgba(black, 87%);
       border-top-style: solid;
       flex: auto;
       min-width: 32px;
-      color: $color_grey_400;
+      color: $material-color-grey-400;
     }
   }
 
@@ -43,8 +56,8 @@ $color_header_text: rgba(black, 87%);
     padding: 8px 12px;
     height: $head_height;
     border: 0;
-    background-color: $color_background;
-    color: rgba(black, 54%);
+    background-color: transparent;
+    color: mdc-theme-prop-value(text-secondary-on-light);
     font-weight: 400;
     font-size: 14px * $font_scale;
     padding: 0 24px;
@@ -63,20 +76,20 @@ $color_header_text: rgba(black, 87%);
     }
 
     &--loading &__index {
-      background: yellow !important;
+      background: darken(mdc-theme-prop-value(primary), 10%) !important;
     }
 
     &--active {
-      color: rgba(black, 87%);
+      color: mdc-theme-prop-value(text-primary-on-light);
       font-weight: 500;
     }
 
     &--active &__index {
-      background: $color_accent;
+      background: $mdc-theme-primary;
     }
 
     &--disabled &__index {
-      background: $color_grey_400;
+      background: $material-color-grey-400;
     }
 
     &--completed &__index {
@@ -85,7 +98,7 @@ $color_header_text: rgba(black, 87%);
 
     &__index {
       background: rgba(black, 38%);
-      color: $color_white;
+      color: mdc-theme-prop-value(text-primary-on-dark);
       width: $head_size;
       height: $head_size;
       display: flex;

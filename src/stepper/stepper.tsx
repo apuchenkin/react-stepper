@@ -3,6 +3,7 @@ import StepperProvider, { StepperContext } from "./context";
 import classnames from "classnames";
 import Header from "./header";
 import "./stepper.scss";
+import StepperProgress from "./progress";
 
 interface Props {
   onComplete?: (context: StepperContext) => void;
@@ -18,6 +19,7 @@ const Stepper: React.FunctionComponent<Props> = ({
     {({ getSteps, getCurrentStep }) => {
       const step = getCurrentStep();
       const steps = getSteps();
+      const isLoading = steps.some(step => step.loading);
 
       return (
         <div className={classnames("stepper", className)}>
@@ -31,6 +33,9 @@ const Stepper: React.FunctionComponent<Props> = ({
               </React.Fragment>
             ))}
           </header>
+          {isLoading && (
+            <StepperProgress className="stepper__progress" />
+          )}
           {step && step.config.children}
           {children}
         </div>

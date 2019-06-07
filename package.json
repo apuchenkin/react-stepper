@@ -18,11 +18,18 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "@material/linear-progress": "^2.3.0",
+    "@material/theme": "^1.1.0",
     "@types/classnames": "^2.2.8",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "classnames": "^2.2.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
+  },
+  "sass": {
+    "includePaths": [
+      "./node_modules"
+    ]
   }
 }
