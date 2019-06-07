@@ -26,7 +26,10 @@ export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
   export type CreateStep = (config: StepConfig) => Promise<StepIndex>;
-  export type UpdateStep = (index: StepIndex, state: Partial<StepState>) => void;
+  export type UpdateStep = (
+    index: StepIndex,
+    state: Partial<StepState>
+  ) => void;
   export type RemoveStep = (index: StepIndex) => void;
   export type goAt = (index: StepIndex) => void;
 }
@@ -83,7 +86,10 @@ interface State {
   };
 }
 
-const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children }) => {
+const StepperPorvider: React.FunctionComponent<Props> = ({
+  onComplete,
+  children
+}) => {
   const isLoading = false;
   const [state, setState] = React.useState<State>({
     current: 1,
@@ -96,7 +102,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
       setState(state => {
         resolve(state.index);
 
-        return ({
+        return {
           ...state,
           steps: {
             ...state.steps,
@@ -104,11 +110,11 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
               config,
               index: state.index,
               data: config.data,
-              loading: false,
+              loading: false
             }
           },
           index: state.index + 1
-        })
+        };
       });
     });
   };
@@ -129,21 +135,23 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
     }));
   };
 
-  const updateStep: Actions.UpdateStep = (index, stepState) => setState(state => ({
-    ...state,
-    steps: {
-      ...state.steps,
-      [index]: {
-        ...state.steps[index],
-        ...stepState,
+  const updateStep: Actions.UpdateStep = (index, stepState) =>
+    setState(state => ({
+      ...state,
+      steps: {
+        ...state.steps,
+        [index]: {
+          ...state.steps[index],
+          ...stepState
+        }
       }
-    },
-  }));
+    }));
 
-  const goAt: Actions.goAt = index => setState(state => ({
-    ...state,
-    current: index
-  }));
+  const goAt: Actions.goAt = index =>
+    setState(state => ({
+      ...state,
+      current: index
+    }));
 
   const getSteps: Selectors.GetSteps = () => {
     return Object.keys(state.steps).reduce(
@@ -185,18 +193,19 @@ const StepperPorvider: React.FunctionComponent<Props> = ({ onComplete, children 
     }
   }, [state.current]);
 
-  const reject: Actions.Reject = error => setState(({ current, steps, ...state }) => ({
-    ...state,
-    current: current,
-    steps: {
-      ...steps,
-      [current]: {
-        ...steps[current],
-        completed: false,
-        error
+  const reject: Actions.Reject = error =>
+    setState(({ current, steps, ...state }) => ({
+      ...state,
+      current: current,
+      steps: {
+        ...steps,
+        [current]: {
+          ...steps[current],
+          completed: false,
+          error
+        }
       }
-    }
-  }));
+    }));
 
   const context = {
     isLoading,

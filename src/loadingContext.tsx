@@ -10,7 +10,7 @@ interface ContextProps {
 
 export const LoadingContext = React.createContext<ContextProps>({
   isLoading: () => false,
-  setLoading: () => {},
+  setLoading: () => {}
 });
 
 interface Action {
@@ -19,34 +19,37 @@ interface Action {
 }
 
 interface State {
-  [key: number]: boolean
+  [key: number]: boolean;
 }
 
 const reducer = (state: State, action: Action) => {
   return {
     ...state,
-    [action.stepIndex]: action.loading,
+    [action.stepIndex]: action.loading
   };
-}
+};
 
 const LoadingProvider: React.FunctionComponent = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, {});
 
-  const isLoading: IsLoading = stepIndex => state[stepIndex] || false
+  const isLoading: IsLoading = stepIndex => state[stepIndex] || false;
 
-  const setLoading: SetLoading = (stepIndex, loading) => dispatch({
-    stepIndex,
-    loading,
-  })
+  const setLoading: SetLoading = (stepIndex, loading) =>
+    dispatch({
+      stepIndex,
+      loading
+    });
 
   return (
-    <LoadingContext.Provider value={{
-      isLoading,
-      setLoading,
-     }}>
+    <LoadingContext.Provider
+      value={{
+        isLoading,
+        setLoading
+      }}
+    >
       {children}
     </LoadingContext.Provider>
-  )
-}
+  );
+};
 
 export default LoadingProvider;

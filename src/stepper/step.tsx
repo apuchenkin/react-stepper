@@ -19,10 +19,9 @@ const Step: React.FunctionComponent<Props> = props => {
   React.useEffect(() => {
     if (stepId) {
       updateStep(stepId, {
-        loading: props.loading,
+        loading: props.loading
       });
     }
-
   }, [props.loading]);
 
   return null;

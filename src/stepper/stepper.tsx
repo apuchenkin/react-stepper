@@ -2,14 +2,18 @@ import * as React from "react";
 import StepperProvider, { StepperContext } from "./context";
 import classnames from "classnames";
 import Header from "./header";
-import './stepper.scss';
+import "./stepper.scss";
 
 interface Props {
   onComplete?: (context: StepperContext) => void;
   className?: string;
 }
 
-const Stepper: React.FunctionComponent<Props> = ({ onComplete, className, children }) => (
+const Stepper: React.FunctionComponent<Props> = ({
+  onComplete,
+  className,
+  children
+}) => (
   <StepperProvider onComplete={onComplete}>
     {({ getSteps, getCurrentStep }) => {
       var step = getCurrentStep();
