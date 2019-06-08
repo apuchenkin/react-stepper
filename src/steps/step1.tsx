@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepperContext } from "../stepper";
+import { StepperContext, StepperAction } from "../stepper";
 import { LoadingContext } from "../loadingContext";
 
 const STEP_INDEX = 1;
@@ -23,7 +23,7 @@ const Step1 = () => {
     <>
       Step 1 content:
       <pre>{data}</pre>
-      <button onClick={onClick}>continue</button>
+      <StepperAction onClick={onClick}>continue</StepperAction>
     </>
   );
 };

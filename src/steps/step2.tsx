@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepperContext } from "../stepper";
+import { StepperContext, StepperAction } from "../stepper";
 
 const Step2 = () => {
   const nameRef = React.useRef<HTMLInputElement>();
@@ -51,7 +51,7 @@ const Step2 = () => {
         </label>
       </fieldset>
       <footer>
-        <button type="submit">continue</button>
+        <StepperAction type="submit">continue</StepperAction>
       </footer>
     </form>
   );

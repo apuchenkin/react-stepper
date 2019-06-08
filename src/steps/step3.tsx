@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepperContext } from "../stepper";
+import { StepperContext, StepperAction } from "../stepper";
 
 const Step3 = () => {
   const { resolve, getData } = React.useContext(StepperContext);
@@ -27,7 +27,7 @@ const Step3 = () => {
         </label>
       </fieldset>
       <footer>
-        <button type="submit">complete</button>
+        <StepperAction type="submit">complete</StepperAction>
       </footer>
     </form>
   );

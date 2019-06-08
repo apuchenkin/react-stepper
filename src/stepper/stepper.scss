@@ -11,7 +11,7 @@ $mdc-theme-on-secondary: #442b2d;
 $font_scale: 1;
 
 $color_success: $material-color-green-500 !default;
-$color_error: $material-color-red-500;
+$color_error: $material-color-red-500 !default;
 
 $head_size: 24px;
 $head_height: 72px;
@@ -44,6 +44,7 @@ $color_header_text: rgba(black, 87%);
       border-top-style: solid;
       flex: auto;
       min-width: 32px;
+      margin: 0 -12px;
       color: $material-color-grey-400;
     }
   }
@@ -94,6 +95,20 @@ $color_header_text: rgba(black, 87%);
 
     &--completed &__index {
       background: $color_success;
+    }
+
+    &--error {
+      color: $color_error;
+    }
+    &--error &__index {
+      background: transparent;
+    }
+    &--error &__icon {
+      width: 24px * $font_scale;
+      height: 24px * $font_scale;
+      svg {
+        fill: $color_error;
+      }
     }
 
     &__index {
