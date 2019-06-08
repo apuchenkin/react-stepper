@@ -9,7 +9,9 @@ const StepperExample: React.FunctionComponent = () => (
       {({ isLoading }) => (
         <Stepper
           onComplete={context => {
-            alert(`completed ${context.getData(3)}`);
+            setTimeout(() => {
+              alert(`completed ${context.getData(3)}`);
+            }, 10);
           }}
         >
           <Step data="initialData" title="Step 1" loading={isLoading(1)}>

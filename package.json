@@ -25,7 +25,8 @@
     "@types/react-dom": "^16.8.4",
     "classnames": "^2.2.6",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-state-effects": "^1.0.0"
   },
   "sass": {
     "includePaths": [
