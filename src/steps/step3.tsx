@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepperContext, StepperAction } from "../stepper";
+import { StepperContext, StepperContent, StepperAction } from "../stepper";
 
 const Step3 = () => {
   const { resolve, getData } = React.useContext(StepperContext);
@@ -16,7 +16,16 @@ const Step3 = () => {
   const data2 = getData(2) || {};
 
   return (
-    <form onSubmit={onSubmit}>
+    <StepperContent
+      onSubmit={onSubmit}
+      actions={(
+        <React.Fragment>
+          <StepperAction disabled>Back</StepperAction>
+          <StepperAction align="right" type="reset">Reset</StepperAction>
+          <StepperAction align="right" type="submit">Continue</StepperAction>
+        </React.Fragment>
+      )}
+    >
       <fieldset>
         <label>
           Step 1 data:
@@ -26,10 +35,7 @@ const Step3 = () => {
           Step 2 data: Name: {data2.name}, Email: {data2.email}
         </label>
       </fieldset>
-      <footer>
-        <StepperAction type="submit">complete</StepperAction>
-      </footer>
-    </form>
+    </StepperContent>
   );
 };
 

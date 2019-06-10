@@ -1,0 +1,15 @@
+@import "./stepper";
+
+.stepper {
+
+  &__content {
+    padding: 24px 24px 0 24px;
+
+    &__actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 64px;
+    }
+  }
+}

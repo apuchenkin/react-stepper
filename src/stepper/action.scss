@@ -1,2 +1,21 @@
 @import "./stepper";
 @import "@material/button/mdc-button";
+
+.stepper {
+  .stepper__action {
+
+    + .stepper__action {
+      margin: 0;
+      margin-right: 12px;
+    }
+
+    &.mdc-button-align--right {
+      margin-left: auto;
+
+      + .mdc-button-align--right {
+        margin: 0;
+        margin-left: 12px;
+      }
+    }
+  }
+}
