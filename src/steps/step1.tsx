@@ -24,8 +24,8 @@ const Step1 = () => {
       actions={
         <React.Fragment>
           <StepperAction disabled onClick={onClick}>Back</StepperAction>
-          <StepperAction align="right" onClick={onClick}>Reset</StepperAction>
-          <StepperAction align="right" onClick={onClick}>Continue</StepperAction>
+          <StepperAction align="right" type="reset" onClick={onClick}>Reset</StepperAction>
+          <StepperAction align="right" type="submit" onClick={onClick}>Continue</StepperAction>
         </React.Fragment>
       }
     >

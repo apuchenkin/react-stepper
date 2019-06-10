@@ -36,6 +36,7 @@ export namespace Actions {
 }
 
 export namespace Selectors {
+  export type IsLoading = () => boolean;
   export type GetSteps = () => StepState[];
   export type GetCurrentStep = () => StepState | undefined;
   export type GetStep = (index: StepIndex) => StepState | undefined;
@@ -43,13 +44,13 @@ export namespace Selectors {
 }
 
 export interface StepperContext {
-  isLoading: boolean;
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
   updateStep: Actions.UpdateStep;
   goAt: Actions.goAt;
   resolve: Actions.Resolve;
   reject: Actions.Reject;
+  isLoading: Selectors.IsLoading;
   getSteps: Selectors.GetSteps;
   getCurrentStep: Selectors.GetCurrentStep;
   getStep: Selectors.GetStep;
@@ -61,7 +62,7 @@ const contextFallback = () => {
 };
 
 export const Context = React.createContext<StepperContext>({
-  isLoading: false,
+  isLoading: () => false,
   createStep: contextFallback,
   removeStep: contextFallback,
   updateStep: contextFallback,
@@ -97,7 +98,6 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   onComplete,
   children
 }) => {
-  const isLoading = false;
   const [state, setState] = useStateEffects<State>(init);
 
   const createStep: Actions.CreateStep = config => {
@@ -165,6 +165,8 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     );
   };
 
+  const isLoading = () => getSteps().some(step => step.loading);
+
   const getStep: Selectors.GetStep = index => state.steps[index];
 
   const getCurrentStep: Selectors.GetCurrentStep = () => getStep(state.current);
@@ -192,6 +194,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
       () => {
         const ctx = contextRef.current;
         const steps = ctx.getSteps();
+        console.log(steps);
 
         if (steps.length && steps.every(step => step.completed)) {
           onComplete(ctx);
@@ -234,7 +237,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
 
   React.useEffect(() => {
     contextRef.current = context;
-  }, [context]);
+  }, [state]);
 
   return (
     <Context.Provider value={context}>{children(context)}</Context.Provider>

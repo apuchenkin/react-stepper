@@ -4,7 +4,7 @@ import { StepperContext, StepperContent, StepperAction } from "../stepper";
 const Step2 = () => {
   const nameRef = React.useRef<HTMLInputElement>();
   const emailRef = React.useRef<HTMLInputElement>();
-  const { reject, resolve, getData } = React.useContext(StepperContext);
+  const { reject, resolve, getData, goAt } = React.useContext(StepperContext);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +31,7 @@ const Step2 = () => {
       onSubmit={onSubmit}
       actions={(
         <React.Fragment>
-          <StepperAction disabled>Back</StepperAction>
+          <StepperAction onClick={() => goAt(1)}>Back</StepperAction>
           <StepperAction align="right" type="reset">Reset</StepperAction>
           <StepperAction align="right" type="submit">Continue</StepperAction>
         </React.Fragment>

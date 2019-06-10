@@ -6,6 +6,7 @@ $mdc-theme-on-primary: #442b2d;
 $mdc-theme-on-secondary: #442b2d;
 
 @import "@material/theme/mdc-theme";
+@import "@material/typography/mdc-typography";
 @import "@material/linear-progress/mdc-linear-progress";
 
 $font_scale: 1;
@@ -15,9 +16,10 @@ $color_error: $material-color-red-500 !default;
 
 $head_size: 24px;
 $head_height: 72px;
-$color_header_text: rgba(black, 87%);
 
 .stepper {
+  @include mdc-typography-base();
+
   background: mdc-theme-prop-value(surface);
   border: 1px solid $material-color-grey-500;
   box-shadow: 0 0 2px 2px $material-color-grey-400;
@@ -29,6 +31,7 @@ $color_header_text: rgba(black, 87%);
   }
 
   &__header {
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -50,7 +53,8 @@ $color_header_text: rgba(black, 87%);
   }
 
   &__head {
-    cursor: pointer;
+    @include mdc-typography(subtitle1);
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -59,12 +63,14 @@ $color_header_text: rgba(black, 87%);
     border: 0;
     background-color: transparent;
     color: mdc-theme-prop-value(text-secondary-on-light);
-    font-weight: 400;
-    font-size: 14px * $font_scale;
     padding: 0 24px;
 
-    &:hover {
-      background-color: rgba(black, 6%);
+    &:not(&--disabled) {
+      cursor: pointer;
+
+      &:hover{
+        background-color: rgba(black, 6%);
+      }
     }
 
     &__icon {
@@ -72,9 +78,6 @@ $color_header_text: rgba(black, 87%);
       height: 14px * $font_scale;
     }
 
-    &--disabled {
-      cursor: default;
-    }
 
     &--loading &__index {
       background: darken(mdc-theme-prop-value(primary), 10%) !important;
@@ -112,6 +115,8 @@ $color_header_text: rgba(black, 87%);
     }
 
     &__index {
+      @include mdc-typography(caption);
+
       background: rgba(black, 38%);
       color: mdc-theme-prop-value(text-primary-on-dark);
       width: $head_size;
@@ -121,7 +126,6 @@ $color_header_text: rgba(black, 87%);
       justify-content: center;
       border-radius: 50%;
       margin-right: 8px;
-      font-size: 12px * $font_scale;
     }
   }
 }

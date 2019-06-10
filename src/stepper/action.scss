@@ -4,6 +4,14 @@
 .stepper {
   .stepper__action {
 
+    &.mdc-button--unelevated {
+      color: mdc-theme-prop-value(text-primary-on-dark);
+    }
+
+    &:not([disabled]) {
+      cursor: pointer;
+    }
+
     + .stepper__action {
       margin: 0;
       margin-right: 12px;
