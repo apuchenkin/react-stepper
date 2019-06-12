@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Context, StepIndex } from "./context";
 import classnames from "classnames";
-import Svg from './svg';
+import Svg from "./svg";
 import * as doneIcon from "../../icons/baseline-done-24px.svg";
 import * as warningIcon from "../../icons/baseline-warning-24px.svg";
 
@@ -34,7 +34,9 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
       onClick={!disabled && enabled ? () => goAt(index) : undefined}
     >
       <span className={`${CLASS_NAME}__index`}>
-        {error && <Svg className={`${CLASS_NAME}__icon`} content={warningIcon} />}
+        {error && (
+          <Svg className={`${CLASS_NAME}__icon`} content={warningIcon} />
+        )}
         {!error && completed && (
           <Svg className={`${CLASS_NAME}__icon`} content={doneIcon} />
         )}

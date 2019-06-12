@@ -6,10 +6,14 @@ import LoadingProvider, { LoadingContext } from "./loadingContext";
 const StepperExample: React.FunctionComponent = () => (
   <LoadingProvider>
     <LoadingContext.Consumer>
-      {({ isLoading }) => (
+      {({ isLoading, setLoading }) => (
         <Stepper
           onComplete={context => {
-            alert(`completed ${context.getData(3)}`);
+            setLoading(3, true);
+            setTimeout(() => {
+              setLoading(3, false);
+              alert(`completed ${context.getData(3)}`);
+            }, 1000);
           }}
         >
           <Step data="initialData" title="Step 1" loading={isLoading(1)}>

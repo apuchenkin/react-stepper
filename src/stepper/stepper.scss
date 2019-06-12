@@ -57,7 +57,7 @@ $stepper_padding: 24px !default;
     &:not(&--disabled) {
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         background-color: rgba(black, 0.06);
       }
     }

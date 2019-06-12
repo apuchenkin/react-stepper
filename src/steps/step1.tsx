@@ -10,7 +10,7 @@ const Step1 = () => {
 
   const data = getData(STEP_INDEX);
 
-  const onClick = (event: React.MouseEvent) => {
+  const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(STEP_INDEX, true);
     setTimeout(() => {
@@ -21,11 +21,16 @@ const Step1 = () => {
 
   return (
     <StepperContent
+      onSubmit={onSubmit}
       actions={
         <React.Fragment>
-          <StepperAction disabled onClick={onClick}>Back</StepperAction>
-          <StepperAction align="right" type="reset" onClick={onClick}>Reset</StepperAction>
-          <StepperAction align="right" type="submit" onClick={onClick}>Continue</StepperAction>
+          <StepperAction disabled>Back</StepperAction>
+          <StepperAction align="right" type="reset" disabled>
+            Reset
+          </StepperAction>
+          <StepperAction align="right" type="submit">
+            Continue
+          </StepperAction>
         </React.Fragment>
       }
     >

@@ -5,7 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
-        "interface-name": 0,
+        "interface-name": false,
     },
     "rulesDirectory": []
 }

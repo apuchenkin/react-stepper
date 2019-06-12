@@ -196,6 +196,8 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
         const steps = ctx.getSteps();
         console.log(steps);
 
+        // TODO: Probably we would like to excecute onComplete immediately after resolve, howewer without state change
+        // Do we even nned onComplete in this case?
         if (steps.length && steps.every(step => step.completed)) {
           onComplete(ctx);
         }

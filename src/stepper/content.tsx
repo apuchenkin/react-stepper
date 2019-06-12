@@ -12,15 +12,10 @@ const StepperContent: React.FunctionComponent<Props> = ({
   actions,
   ...props
 }) => (
-  <form
-    {...props}
-    className={classnames("stepper__content", className)}
-  >
+  <form {...props} className={classnames("stepper__content", className)}>
     {children}
     {actions && (
-      <footer className="stepper__content__actions">
-        {actions}
-      </footer>
+      <footer className="stepper__content__actions">{actions}</footer>
     )}
   </form>
 );
