@@ -3,7 +3,8 @@ import { Context, StepConfig } from "./context";
 
 interface Props extends StepConfig {
   data?: any;
-  loading: boolean;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 const Step: React.FunctionComponent<Props> = props => {

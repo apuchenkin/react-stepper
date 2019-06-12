@@ -33,7 +33,7 @@ const Step3 = () => {
             Reset
           </StepperAction>
           <StepperAction align="right" type="submit">
-            Continue
+            Complete
           </StepperAction>
         </React.Fragment>
       }

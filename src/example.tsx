@@ -16,7 +16,7 @@ const StepperExample: React.FunctionComponent = () => (
             }, 1000);
           }}
         >
-          <Step data="initialData" title="Step 1" loading={isLoading(1)}>
+          <Step data="initialData" title="Step 1" description="This step is optional" loading={isLoading(1)}>
             <Step1 />
           </Step>
           <Step title="Step 2" loading={isLoading(2)}>

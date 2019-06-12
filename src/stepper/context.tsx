@@ -10,17 +10,17 @@ type StepData = any;
 export interface StepConfig {
   title: string;
   children: React.ReactChild;
+  description?: string;
+  loading?: boolean;
+  disabled?: boolean;
   data?: StepData;
 }
 
-export interface StepState {
+export interface StepState extends StepConfig {
   index: StepIndex;
-  data?: StepData;
   error?: StepError;
-  disabled?: boolean;
   completed?: boolean;
   loading: boolean;
-  config: StepConfig;
 }
 
 export namespace Actions {
@@ -108,7 +108,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           steps: {
             ...state.steps,
             [state.index]: {
-              config,
+              ...config,
               index: state.index,
               data: config.data,
               loading: false

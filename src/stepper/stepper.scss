@@ -16,9 +16,12 @@ $stepper_padding: 24px !default;
   box-shadow: 0 0 2px 2px $material-color-grey-400;
   border-radius: 3px;
   overflow: hidden;
+  position: relative;
 
   &__progress {
     position: absolute;
+    left: 0;
+    right: 0;
   }
 
   &__header {
@@ -42,8 +45,6 @@ $stepper_padding: 24px !default;
   }
 
   &__head {
-    @include mdc-typography(subtitle1);
-
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -65,10 +66,6 @@ $stepper_padding: 24px !default;
     &__icon {
       width: 14px;
       height: 14px;
-    }
-
-    &--loading &__index {
-      background: darken(mdc-theme-prop-value(primary), 0.1) !important;
     }
 
     &--active {
@@ -121,6 +118,20 @@ $stepper_padding: 24px !default;
       svg {
         fill: mdc-theme-prop-value(text-primary-on-dark);
       }
+    }
+
+    &__title {
+      @include mdc-typography(subtitle1);
+      line-height: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
+    }
+
+    &__title > &__description {
+      @include mdc-typography(caption);
+      color: mdc-theme-prop-value(text-secondary-on-light);
     }
   }
 }

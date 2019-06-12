@@ -13,25 +13,27 @@ interface Props {
 const CLASS_NAME = "stepper__head";
 
 const Header: React.FunctionComponent<Props> = ({ index, title }) => {
-  const { goAt, getStep, getCurrentStep } = React.useContext(Context);
+  const { isLoading, goAt, getStep, getCurrentStep } = React.useContext(Context);
   const current = getCurrentStep();
-  const { loading, completed, error, disabled } = getStep(index);
+  const { loading, completed, error, disabled, description } = getStep(index);
+
   const active = Boolean(current && current.index === index);
-  const enabled = Boolean(active || completed || error);
+  const disabled$ = disabled
+    || isLoading()
+    || !Boolean(active || completed || error)
 
   return (
     <button
       tabIndex={0}
-      disabled={disabled || !enabled}
+      disabled={disabled$}
       className={classnames(CLASS_NAME, {
         [`${CLASS_NAME}--loading`]: loading,
         [`${CLASS_NAME}--completed`]: completed,
         [`${CLASS_NAME}--error`]: error,
         [`${CLASS_NAME}--active`]: active,
-        [`${CLASS_NAME}--disabled`]: disabled || !enabled,
-        [`${CLASS_NAME}--enabled`]: enabled
+        [`${CLASS_NAME}--disabled`]: disabled$,
       })}
-      onClick={!disabled && enabled ? () => goAt(index) : undefined}
+      onClick={() => goAt(index)}
     >
       <span className={`${CLASS_NAME}__index`}>
         {error && (
@@ -42,7 +44,14 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
         )}
         {!error && !completed && index}
       </span>
-      {title}
+      <span className={`${CLASS_NAME}__title`}>
+        {title}
+        {description && (
+          <span className={`${CLASS_NAME}__description`}>
+            {description}
+          </span>
+        )}
+      </span>
     </button>
   );
 };

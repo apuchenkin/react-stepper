@@ -26,7 +26,7 @@ const Stepper: React.FunctionComponent<Props> = ({
           <header className="stepper__header">
             {steps.map((step, idx) => (
               <React.Fragment key={step.index}>
-                <Header title={step.config.title} index={step.index} />
+                <Header title={step.title} index={step.index} />
                 {idx + 1 < steps.length && (
                   <hr className="stepper__header__connector" />
                 )}
@@ -34,7 +34,7 @@ const Stepper: React.FunctionComponent<Props> = ({
             ))}
           </header>
           {isLoading && <StepperProgress className="stepper__progress" />}
-          {step && step.config.children}
+          {step && step.children}
           {children}
         </div>
       );
