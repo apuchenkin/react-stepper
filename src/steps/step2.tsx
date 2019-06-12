@@ -1,6 +1,6 @@
 import * as React from "react";
-import { StepperContext, StepperContent, StepperAction } from "../stepper";
 import { LoadingContext } from "../loadingContext";
+import { StepperAction, StepperContent, StepperContext } from "../stepper";
 
 const STEP_INDEX = 2;
 
@@ -10,6 +10,7 @@ const Step2 = () => {
   const { reject, resolve, getData, goAt } = React.useContext(StepperContext);
   const { isLoading, setLoading } = React.useContext(LoadingContext);
 
+  const back = () => goAt(STEP_INDEX - 1);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(STEP_INDEX, true);
@@ -23,8 +24,8 @@ const Step2 = () => {
         reject(new Error("invalid name"));
       } else {
         resolve({
-          name,
-          email
+          email,
+          name
         });
       }
     }, 3000);
@@ -37,7 +38,7 @@ const Step2 = () => {
       onSubmit={onSubmit}
       actions={
         <React.Fragment>
-          <StepperAction type="button" onClick={() => goAt(STEP_INDEX - 1)}>
+          <StepperAction type="button" onClick={back}>
             Back
           </StepperAction>
           <StepperAction align="right" type="reset">
@@ -58,7 +59,7 @@ const Step2 = () => {
             name="name"
             ref={nameRef}
             defaultValue={data.name}
-            required
+            required={true}
             type="text"
           />
         </label>
@@ -68,7 +69,7 @@ const Step2 = () => {
             name="email"
             ref={emailRef}
             defaultValue={data.email}
-            required
+            required={true}
             type="email"
           />
         </label>

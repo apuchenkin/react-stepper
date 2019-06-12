@@ -1,7 +1,7 @@
-import * as React from "react";
 import classnames from "classnames";
-import { Context as StepperContext } from "./context";
+import * as React from "react";
 import "./action.scss";
+import { Context as StepperContext } from "./context";
 
 const ALIGN_LEFT = "left";
 const ALIGN_RIGHT = "right";

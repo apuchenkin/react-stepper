@@ -1,6 +1,6 @@
 import * as React from "react";
-import { StepperContext, StepperContent, StepperAction } from "../stepper";
 import { LoadingContext } from "../loadingContext";
+import { StepperAction, StepperContent, StepperContext } from "../stepper";
 
 const STEP_INDEX = 1;
 
@@ -24,8 +24,8 @@ const Step1 = () => {
       onSubmit={onSubmit}
       actions={
         <React.Fragment>
-          <StepperAction disabled>Back</StepperAction>
-          <StepperAction align="right" type="reset" disabled>
+          <StepperAction disabled={true}>Back</StepperAction>
+          <StepperAction align="right" type="reset" disabled={true}>
             Reset
           </StepperAction>
           <StepperAction align="right" type="submit">

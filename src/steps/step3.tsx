@@ -1,6 +1,6 @@
 import * as React from "react";
-import { StepperContext, StepperContent, StepperAction } from "../stepper";
 import { LoadingContext } from "../loadingContext";
+import { StepperAction, StepperContent, StepperContext } from "../stepper";
 
 const STEP_INDEX = 3;
 
@@ -8,6 +8,7 @@ const Step3 = () => {
   const { resolve, getData, goAt } = React.useContext(StepperContext);
   const { setLoading } = React.useContext(LoadingContext);
 
+  const back = () => goAt(STEP_INDEX - 1);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(STEP_INDEX, true);
@@ -26,10 +27,8 @@ const Step3 = () => {
       onSubmit={onSubmit}
       actions={
         <React.Fragment>
-          <StepperAction onClick={() => goAt(STEP_INDEX - 1)}>
-            Back
-          </StepperAction>
-          <StepperAction align="right" type="reset" disabled>
+          <StepperAction onClick={back}>Back</StepperAction>
+          <StepperAction align="right" type="reset" disabled={true}>
             Reset
           </StepperAction>
           <StepperAction align="right" type="submit">

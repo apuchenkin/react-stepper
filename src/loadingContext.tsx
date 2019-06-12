@@ -10,7 +10,7 @@ interface ContextProps {
 
 export const LoadingContext = React.createContext<ContextProps>({
   isLoading: () => false,
-  setLoading: () => {}
+  setLoading: () => undefined
 });
 
 interface Action {
@@ -36,8 +36,8 @@ const LoadingProvider: React.FunctionComponent = ({ children }) => {
 
   const setLoading: SetLoading = (stepIndex, loading) =>
     dispatch({
-      stepIndex,
-      loading
+      loading,
+      stepIndex
     });
 
   return (

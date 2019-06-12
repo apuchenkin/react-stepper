@@ -24,6 +24,7 @@ export interface StepState extends StepConfig {
   loading: boolean;
 }
 
+// tslint:disable-next-line:no-namespace
 export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
@@ -36,6 +37,7 @@ export namespace Actions {
   export type goAt = (index: StepIndex) => void;
 }
 
+// tslint:disable-next-line:no-namespace
 export namespace Selectors {
   export type IsLoading = () => boolean;
   export type GetSteps = () => StepState[];
@@ -44,7 +46,7 @@ export namespace Selectors {
   export type GetData = (index: StepIndex) => StepData | undefined;
 }
 
-export interface StepperContext {
+export interface StepperController {
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
   updateStep: Actions.UpdateStep;
@@ -62,23 +64,23 @@ const contextFallback = () => {
   throw new Error("createStep invoked outside of Stepper scope");
 };
 
-export const Context = React.createContext<StepperContext>({
-  isLoading: () => false,
+export const Context = React.createContext<StepperController>({
   createStep: contextFallback,
-  removeStep: contextFallback,
-  updateStep: contextFallback,
-  goAt: contextFallback,
-  resolve: contextFallback,
-  reject: contextFallback,
-  getSteps: () => [],
   getCurrentStep: () => undefined,
+  getData: () => undefined,
   getStep: () => undefined,
-  getData: () => undefined
+  getSteps: () => [],
+  goAt: contextFallback,
+  isLoading: () => false,
+  reject: contextFallback,
+  removeStep: contextFallback,
+  resolve: contextFallback,
+  updateStep: contextFallback
 });
 
 interface Props {
-  children: (context: StepperContext) => React.ReactNode;
-  onComplete: (context: StepperContext) => void;
+  children: (context: StepperController) => React.ReactNode;
+  onComplete: (context: StepperController) => void;
   initialStep?: number;
 }
 
@@ -102,36 +104,36 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   });
 
   const createStep: Actions.CreateStep = config => {
-    return new Promise(resolve => {
-      setState(state => [
+    return new Promise(res => {
+      setState(state$ => [
         {
-          ...state,
+          ...state$,
+          index: state$.index + 1,
           steps: {
-            ...state.steps,
-            [state.index]: {
+            ...state$.steps,
+            [state$.index]: {
               ...config,
-              index: state.index,
-              completed: state.current > state.index,
+              completed: state$.current > state$.index,
               data: config.data,
-              loading: false,
+              index: state$.index,
+              loading: false
             }
-          },
-          index: state.index + 1
+          }
         },
-        () => resolve(state.index)
+        () => res(state$.index)
       ]);
     });
   };
 
   const removeStep: Actions.RemoveStep = stepId => {
-    setState(state => [
+    setState(state$ => [
       {
-        ...state,
-        steps: Object.keys(state.steps).reduce(
+        ...state$,
+        steps: Object.keys(state$.steps).reduce(
           (acc, id) =>
             Number(id) === stepId
               ? acc
-              : { ...acc, [id]: state.steps[Number(id)] },
+              : { ...acc, [id]: state$.steps[Number(id)] },
           {}
         )
       }
@@ -139,13 +141,13 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   };
 
   const updateStep: Actions.UpdateStep = (index, stepState) =>
-    setState(state => [
+    setState(state$ => [
       {
-        ...state,
+        ...state$,
         steps: {
-          ...state.steps,
+          ...state$.steps,
           [index]: {
-            ...state.steps[index],
+            ...state$.steps[index],
             ...stepState
           }
         }
@@ -153,9 +155,9 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     ]);
 
   const goAt: Actions.goAt = index =>
-    setState(state => [
+    setState(state$ => [
       {
-        ...state,
+        ...state$,
         current: index
       }
     ]);
@@ -174,33 +176,34 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   const getCurrentStep: Selectors.GetCurrentStep = () => getStep(state.current);
 
   const getData: Selectors.GetData = index => {
-    const state = getStep(index);
-    return state && state.data;
+    const stepState = getStep(index);
+    return stepState && stepState.data;
   };
 
   const resolve: Actions.Resolve = data => {
-    setState(({ current, steps, ...state }) => [
+    setState(({ current, steps, ...state$ }) => [
       {
-        ...state,
+        ...state$,
         current: current + 1,
         steps: {
           ...steps,
           [current]: {
             ...steps[current],
-            data,
             completed: true,
+            data,
             error: undefined
           }
         }
       },
       () => {
         const ctx = contextRef.current;
-        const steps = ctx.getSteps();
-        console.log(steps);
 
         // TODO: Probably we would like to excecute onComplete immediately after resolve, howewer without state change
         // Do we even nned onComplete in this case?
-        if (steps.length && steps.every(step => step.completed)) {
+        if (
+          ctx.getSteps().length &&
+          ctx.getSteps().every(step => step.completed)
+        ) {
           onComplete(ctx);
         }
       }
@@ -208,10 +211,10 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   };
 
   const reject: Actions.Reject = error =>
-    setState(({ current, steps, ...state }) => [
+    setState(({ current, steps, ...state$ }) => [
       {
-        ...state,
-        current: current,
+        ...state$,
+        current,
         steps: {
           ...steps,
           [current]: {
@@ -224,17 +227,17 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     ]);
 
   const context = {
-    isLoading,
     createStep,
-    removeStep,
-    updateStep,
-    getSteps,
-    getStep,
     getCurrentStep,
+    getData,
+    getStep,
+    getSteps,
     goAt,
-    resolve,
+    isLoading,
     reject,
-    getData
+    removeStep,
+    resolve,
+    updateStep
   };
 
   const contextRef = React.useRef(context);
