@@ -6,16 +6,18 @@ import StepperProgress from "./progress";
 import "./stepper.scss";
 
 interface Props {
+  initialStep?: number;
   onComplete?: (context: StepperContext) => void;
   className?: string;
 }
 
 const Stepper: React.FunctionComponent<Props> = ({
   onComplete,
+  initialStep,
   className,
   children
 }) => (
-  <StepperProvider onComplete={onComplete}>
+  <StepperProvider initialStep={initialStep} onComplete={onComplete}>
     {({ getSteps, getCurrentStep }) => {
       const step = getCurrentStep();
       const steps = getSteps();

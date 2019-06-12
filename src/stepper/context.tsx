@@ -78,6 +78,7 @@ export const Context = React.createContext<StepperContext>({
 interface Props {
   children: (context: StepperContext) => React.ReactNode;
   onComplete: (context: StepperContext) => void;
+  initialStep?: number;
 }
 
 interface State {
@@ -88,17 +89,16 @@ interface State {
   };
 }
 
-const init = {
-  current: 1,
-  index: 1,
-  steps: {}
-};
-
 const StepperPorvider: React.FunctionComponent<Props> = ({
+  initialStep = 1,
   onComplete,
   children
 }) => {
-  const [state, setState] = useStateEffects<State>(init);
+  const [state, setState] = useStateEffects<State>({
+    current: initialStep,
+    index: 1,
+    steps: {}
+  });
 
   const createStep: Actions.CreateStep = config => {
     return new Promise(resolve => {
@@ -110,8 +110,9 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
             [state.index]: {
               ...config,
               index: state.index,
+              completed: state.current > state.index,
               data: config.data,
-              loading: false
+              loading: false,
             }
           },
           index: state.index + 1

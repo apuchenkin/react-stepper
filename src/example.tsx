@@ -8,6 +8,7 @@ const StepperExample: React.FunctionComponent = () => (
     <LoadingContext.Consumer>
       {({ isLoading, setLoading }) => (
         <Stepper
+          initialStep={2}
           onComplete={context => {
             setLoading(3, true);
             setTimeout(() => {
