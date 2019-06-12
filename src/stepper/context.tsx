@@ -14,6 +14,7 @@ export interface StepConfig {
   loading?: boolean;
   disabled?: boolean;
   data?: StepData;
+  className?: string;
 }
 
 export interface StepState extends StepConfig {

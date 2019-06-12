@@ -15,7 +15,7 @@ const CLASS_NAME = "stepper__head";
 const Header: React.FunctionComponent<Props> = ({ index, title }) => {
   const { isLoading, goAt, getStep, getCurrentStep } = React.useContext(Context);
   const current = getCurrentStep();
-  const { loading, completed, error, disabled, description } = getStep(index);
+  const { loading, completed, error, disabled, description, className } = getStep(index);
 
   const active = Boolean(current && current.index === index);
   const disabled$ = disabled
@@ -26,7 +26,7 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
     <button
       tabIndex={0}
       disabled={disabled$}
-      className={classnames(CLASS_NAME, {
+      className={classnames(className, CLASS_NAME, {
         [`${CLASS_NAME}--loading`]: loading,
         [`${CLASS_NAME}--completed`]: completed,
         [`${CLASS_NAME}--error`]: error,
