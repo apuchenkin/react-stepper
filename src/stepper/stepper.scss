@@ -1,21 +1,12 @@
 @import "@material/theme/color-palette";
-
-$mdc-theme-primary: $material-color-blue-500;
-$mdc-theme-secondary: #feeae6;
-$mdc-theme-on-primary: #442b2d;
-$mdc-theme-on-secondary: #442b2d;
-
 @import "@material/theme/mdc-theme";
 @import "@material/typography/mdc-typography";
 @import "@material/linear-progress/mdc-linear-progress";
 
-$font_scale: 1;
-
-$color_success: $material-color-green-500 !default;
-$color_error: $material-color-red-500 !default;
-
-$head_size: 24px;
-$head_height: 72px;
+$stepper_circle_size: 24px !default;
+$stepper_color_success: $material-color-green-500 !default;
+$stepper_header_height: 72px !default;
+$stepper_padding: 24px !default;
 
 .stepper {
   @include mdc-typography-base();
@@ -31,13 +22,11 @@ $head_height: 72px;
   }
 
   &__header {
-
     display: flex;
     flex-direction: row;
     align-items: center;
-    // background-color: $color_background;
     justify-content: space-between;
-    height: $head_height;
+    height: $stepper_header_height;
     box-shadow: 0 4px 4px -4px $material-color-grey-400;
 
     &__connector {
@@ -59,28 +48,27 @@ $head_height: 72px;
     flex-direction: row;
     align-items: center;
     padding: 8px 12px;
-    height: $head_height;
+    height: $stepper_header_height;
     border: 0;
     background-color: transparent;
     color: mdc-theme-prop-value(text-secondary-on-light);
-    padding: 0 24px;
+    padding: 0 $stepper_padding;
 
     &:not(&--disabled) {
       cursor: pointer;
 
       &:hover{
-        background-color: rgba(black, 6%);
+        background-color: rgba(black, 0.06);
       }
     }
 
     &__icon {
-      width: 14px * $font_scale;
-      height: 14px * $font_scale;
+      width: 14px;
+      height: 14px;
     }
 
-
     &--loading &__index {
-      background: darken(mdc-theme-prop-value(primary), 10%) !important;
+      background: darken(mdc-theme-prop-value(primary), 0.1) !important;
     }
 
     &--active {
@@ -93,39 +81,46 @@ $head_height: 72px;
     }
 
     &--disabled &__index {
-      background: $material-color-grey-400;
+      background: mdc-theme-prop-value(text-disabled-on-light);
     }
 
     &--completed &__index {
-      background: $color_success;
+      background: $stepper_color_success;
     }
 
     &--error {
-      color: $color_error;
+      color: mdc-theme-prop-value(error);
     }
+
     &--error &__index {
       background: transparent;
     }
+
     &--error &__icon {
-      width: 24px * $font_scale;
-      height: 24px * $font_scale;
+      width: $stepper_circle_size;
+      height: $stepper_circle_size;
+
       svg {
-        fill: $color_error;
+        fill: mdc-theme-prop-value(error);
       }
     }
 
     &__index {
       @include mdc-typography(caption);
 
-      background: rgba(black, 38%);
+      background: mdc-theme-prop-value(text-hint-on-light);
       color: mdc-theme-prop-value(text-primary-on-dark);
-      width: $head_size;
-      height: $head_size;
+      width: $stepper_circle_size;
+      height: $stepper_circle_size;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
       margin-right: 8px;
+
+      svg {
+        fill: mdc-theme-prop-value(text-primary-on-dark);
+      }
     }
   }
 }

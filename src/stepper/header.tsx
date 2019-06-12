@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Context, StepIndex } from "./context";
 import classnames from "classnames";
-import doneIcon from "../../icons/baseline-done-24px.svg";
-import warningIcon from "../../icons/baseline-warning-24px.svg";
+import Svg from './svg';
+import * as doneIcon from "../../icons/baseline-done-24px.svg";
+import * as warningIcon from "../../icons/baseline-warning-24px.svg";
 
 interface Props {
   index: StepIndex;
@@ -33,9 +34,9 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
       onClick={!disabled && enabled ? () => goAt(index) : undefined}
     >
       <span className={`${CLASS_NAME}__index`}>
-        {error && <img className={`${CLASS_NAME}__icon`} src={warningIcon} />}
+        {error && <Svg className={`${CLASS_NAME}__icon`} content={warningIcon} />}
         {!error && completed && (
-          <img className={`${CLASS_NAME}__icon`} src={doneIcon} />
+          <Svg className={`${CLASS_NAME}__icon`} content={doneIcon} />
         )}
         {!error && !completed && index}
       </span>
@@ -44,4 +45,4 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

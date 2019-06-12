@@ -5,18 +5,27 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "serve": "parcel src/index.html",
+    "serve": "webpack-dev-server",
     "prettier": "prettier --write src/**/*",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "author": "Artem Puchenkin",
   "license": "MIT",
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
+    "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
-    "sass": "^1.21.0",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "svg-inline-loader": "^0.8.0",
     "tslint": "^5.17.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "webpack": "^4.33.0",
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.1"
   },
   "dependencies": {
     "@material/button": "^2.3.0",
@@ -30,10 +39,5 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-state-effects": "^1.0.2"
-  },
-  "sass": {
-    "includePaths": [
-      "./node_modules"
-    ]
   }
 }

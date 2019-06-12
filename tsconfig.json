@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    // "strict": true,
     "sourceMap": true,
     "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "module": "commonjs",
     "target": "es6",
     "jsx": "react"
   },
   "include": [
     "./src/**/*",
-    "./typings/*"
+    "./typings/*.d.ts"
   ]
 }
