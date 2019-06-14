@@ -4,7 +4,7 @@ import {
   Actions,
   Handlers,
   Selectors,
-  StepIndex,
+  StepId,
   StepperController,
   StepState
 } from "./typings";
@@ -31,14 +31,13 @@ interface Props {
   children: (context: StepperController) => React.ReactNode;
   onResolve: Handlers.OnResolve;
   onReject: Handlers.OnReject;
-  initialStep?: StepIndex;
+  initialStep?: StepId;
 }
 
 interface State {
-  current: StepIndex;
-  steps: {
-    [key: number]: StepState;
-  };
+  current: StepId;
+  steps: Record<StepId, StepState>;
+  stepIndex: StepId[];
 }
 
 const StepperPorvider: React.FunctionComponent<Props> = ({
@@ -49,21 +48,34 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
 }) => {
   const [state, setState] = useStateEffects<State>({
     current: initialStep,
+    stepIndex: [],
     steps: {}
   });
 
-  const createStep: Actions.CreateStep = (index, config) => {
+  const getIndex = (stepId: StepId) => state.stepIndex.indexOf(stepId);
+  const getNextStepId = (stepId: StepId) => {
+    const index = getIndex(stepId);
+    const nextIndex =
+      index + 1 < state.stepIndex.length ? index + 1 : state.stepIndex.length;
+
+    return state.stepIndex[nextIndex];
+  };
+
+  const createStep: Actions.CreateStep = (stepId, config) => {
     setState(state$ => [
       {
         ...state$,
+        stepIndex: [...state$.stepIndex, stepId],
         steps: {
           ...state$.steps,
-          [index]: {
+          [stepId]: {
             ...config,
-            completed: state$.current > index,
+            completed:
+              state$.stepIndex.indexOf(state$.current) < 0 &&
+              state$.current !== stepId,
             data: config.data,
-            index,
-            loading: false
+            loading: false,
+            stepId
           }
         }
       }
@@ -74,54 +86,50 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     setState(state$ => [
       {
         ...state$,
+        stepIndex: state$.stepIndex.filter(stepId$ => stepId$ !== stepId),
         steps: Object.keys(state$.steps).reduce(
           (acc, id) =>
-            Number(id) === stepId
-              ? acc
-              : { ...acc, [id]: state$.steps[Number(id)] },
+            Number(id) === stepId ? acc : { ...acc, [id]: state$.steps[id] },
           {}
         )
       }
     ]);
   };
 
-  const updateStep: Actions.UpdateStep = (index, stepState) =>
+  const updateStep: Actions.UpdateStep = (stepId, stepState) =>
     setState(state$ => [
       {
         ...state$,
         steps: {
           ...state$.steps,
-          [index]: {
-            ...state$.steps[index],
+          [stepId]: {
+            ...state$.steps[stepId],
             ...stepState
           }
         }
       }
     ]);
 
-  const goAt: Actions.goAt = index =>
+  const goAt: Actions.goAt = stepId =>
     setState(state$ => [
       {
         ...state$,
-        current: index
+        current: stepId
       }
     ]);
 
   const getSteps: Selectors.GetSteps = () => {
-    return Object.keys(state.steps).reduce(
-      (acc, id) => [...acc, state.steps[Number(id)]],
-      []
-    );
+    return state.stepIndex.map(stepId => state.steps[stepId]);
   };
 
   const isLoading = () => getSteps().some(step => step.loading);
 
-  const getStep: Selectors.GetStep = index => state.steps[index];
+  const getStep: Selectors.GetStep = stepId => state.steps[stepId];
 
   const getCurrentStep: Selectors.GetCurrentStep = () => getStep(state.current);
 
-  const getData: Selectors.GetData = (index, fallback) => {
-    const stepState = getStep(index);
+  const getData: Selectors.GetData = (stepId, fallback) => {
+    const stepState = getStep(stepId);
     return (stepState && stepState.data) || fallback;
   };
 
@@ -129,8 +137,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     setState(({ current, steps, ...state$ }) => [
       {
         ...state$,
-        // TODO: getNext
-        current: current + 1,
+        current: getNextStepId(current),
         steps: {
           ...steps,
           [current]: {

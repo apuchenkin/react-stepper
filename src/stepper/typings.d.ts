@@ -1,5 +1,4 @@
-
-export type StepIndex = number;
+export type StepId = number | string;
 
 export type StepError = Error;
 
@@ -16,7 +15,7 @@ export interface StepConfig {
 }
 
 export interface StepState extends StepConfig {
-  index: StepIndex;
+  stepId: StepId;
   error?: StepError;
   completed?: boolean;
   loading: boolean;
@@ -25,21 +24,18 @@ export interface StepState extends StepConfig {
 export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
-  export type CreateStep = (index: StepIndex, config: StepConfig) => void;
-  export type UpdateStep = (
-    index: StepIndex,
-    state: Partial<StepState>
-  ) => void;
-  export type RemoveStep = (index: StepIndex) => void;
-  export type goAt = (index: StepIndex) => void;
+  export type CreateStep = (stepId: StepId, config: StepConfig) => void;
+  export type UpdateStep = (stepId: StepId, state: Partial<StepState>) => void;
+  export type RemoveStep = (stepId: StepId) => void;
+  export type goAt = (stepId: StepId) => void;
 }
 
 export namespace Selectors {
   export type IsLoading = () => boolean;
   export type GetSteps = () => StepState[];
   export type GetCurrentStep = () => StepState | undefined;
-  export type GetStep = (index: StepIndex) => StepState | undefined;
-  export type GetData = (index: StepIndex, fallback?: StepData) => StepData;
+  export type GetStep = (stepId: StepId) => StepState | undefined;
+  export type GetData = (stepId: StepId, fallback?: StepData) => StepData;
 }
 
 export namespace Handlers {

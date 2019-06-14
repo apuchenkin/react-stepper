@@ -2,25 +2,25 @@ import * as React from "react";
 import { LoadingContext } from "../loadingContext";
 import { StepperAction, StepperContent, StepperContext } from "../stepper";
 
-const STEP_INDEX = 1;
+export const STEP1 = "step-one";
 
 const Step1: React.FunctionComponent = () => {
   const { resolve, getData, updateStep } = React.useContext(StepperContext);
   const { setLoading } = React.useContext(LoadingContext);
 
-  const data = getData(STEP_INDEX);
+  const data = getData(STEP1);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setLoading(STEP_INDEX, true);
+    setLoading(STEP1, true);
     setTimeout(() => {
       resolve(data);
-      setLoading(STEP_INDEX, false);
+      setLoading(STEP1, false);
     }, 1000);
   };
 
   const toggle = (step: string) => () => {
-    updateStep(STEP_INDEX, {
+    updateStep(STEP1, {
       data: {
         ...data,
         [step]: !data[step]

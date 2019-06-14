@@ -1,29 +1,27 @@
 import * as React from "react";
 import { Context } from "./context";
-import { StepConfig, StepIndex } from './typings';
+import { StepConfig, StepId } from "./typings";
 
 interface Props extends StepConfig {
-  index: StepIndex;
+  stepId: StepId;
   data?: any;
   loading?: boolean;
   disabled?: boolean;
 }
 
-const Step: React.FunctionComponent<Props> = ({ index, ...props }) => {
+const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
   const { createStep, removeStep, updateStep } = React.useContext(Context);
 
   React.useEffect(() => {
-    createStep(index, props);
+    createStep(stepId, props);
 
-    return () => removeStep(index);
+    return () => removeStep(stepId);
   }, []);
 
   React.useEffect(() => {
-    if (index) {
-      updateStep(index, {
-        loading: props.loading
-      });
-    }
+    updateStep(stepId, {
+      loading: props.loading
+    });
   }, [props.loading]);
 
   return null;

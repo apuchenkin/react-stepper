@@ -4,10 +4,10 @@ import StepperProvider from "./context";
 import Header from "./header";
 import StepperProgress from "./progress";
 import "./stepper.scss";
-import { Handlers } from './typings';
+import { Handlers, StepId } from "./typings";
 
 interface Props {
-  initialStep?: number;
+  initialStep?: StepId;
   onResolve?: Handlers.OnResolve;
   onReject?: Handlers.OnReject;
   className?: string;
@@ -34,8 +34,8 @@ const Stepper: React.FunctionComponent<Props> = ({
         <div className={classnames("stepper", className)}>
           <header className="stepper__header">
             {steps.map((step, idx) => (
-              <React.Fragment key={step.index}>
-                <Header title={step.title} index={step.index} />
+              <React.Fragment key={step.stepId}>
+                <Header stepId={step.stepId} index={idx + 1} />
                 {idx + 1 < steps.length && (
                   <hr className="stepper__header__connector" />
                 )}

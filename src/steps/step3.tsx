@@ -1,26 +1,28 @@
 import * as React from "react";
 import { LoadingContext } from "../loadingContext";
 import { StepperAction, StepperContent, StepperContext } from "../stepper";
+import { STEP1 } from "./step1";
+import { STEP2 } from "./step2";
 
-const STEP_INDEX = 3;
+export const STEP3 = "step-three";
 
 const Step3 = () => {
   const { resolve, getData, goAt } = React.useContext(StepperContext);
   const { setLoading } = React.useContext(LoadingContext);
 
-  const back = () => goAt(STEP_INDEX - 1);
+  const back = () => goAt(STEP2);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(STEP_INDEX, true);
+    setLoading(STEP3, true);
 
     setTimeout(() => {
-      setLoading(STEP_INDEX, false);
+      setLoading(STEP3, false);
       resolve(true);
     }, 100);
   };
 
-  const data1 = getData(1);
-  const data2 = getData(2) || {};
+  const data1 = getData(STEP1);
+  const data2 = getData(STEP2) || {};
 
   return (
     <StepperContent

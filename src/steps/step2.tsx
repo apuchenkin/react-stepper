@@ -1,8 +1,9 @@
 import * as React from "react";
 import { LoadingContext } from "../loadingContext";
 import { StepperAction, StepperContent, StepperContext } from "../stepper";
+import { STEP1 } from "./step1";
 
-const STEP_INDEX = 2;
+export const STEP2 = "step-two";
 
 const Step2 = () => {
   const nameRef = React.useRef<HTMLInputElement>();
@@ -10,13 +11,13 @@ const Step2 = () => {
   const { reject, resolve, getData, goAt } = React.useContext(StepperContext);
   const { isLoading, setLoading } = React.useContext(LoadingContext);
 
-  const back = () => goAt(STEP_INDEX - 1);
+  const back = () => goAt(STEP1);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(STEP_INDEX, true);
+    setLoading(STEP2, true);
 
     setTimeout(() => {
-      setLoading(STEP_INDEX, false);
+      setLoading(STEP2, false);
       const name = nameRef.current && nameRef.current.value;
       const email = emailRef.current && emailRef.current.value;
 
@@ -31,7 +32,7 @@ const Step2 = () => {
     }, 3000);
   };
 
-  const data = getData(STEP_INDEX) || {};
+  const data = getData(STEP2) || {};
 
   return (
     <StepperContent
@@ -50,8 +51,8 @@ const Step2 = () => {
         </React.Fragment>
       }
     >
-      loading: {String(isLoading(STEP_INDEX))}
-      <fieldset disabled={isLoading(STEP_INDEX)}>
+      loading: {String(isLoading(STEP2))}
+      <fieldset disabled={isLoading(STEP2)}>
         <legend>User:</legend>
         <label>
           Name
@@ -64,7 +65,7 @@ const Step2 = () => {
           />
         </label>
         <label>
-          Input 2
+          Email
           <input
             name="email"
             ref={emailRef}

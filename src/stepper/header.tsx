@@ -4,16 +4,16 @@ import doneIcon from "../../icons/baseline-done-24px.svg";
 import warningIcon from "../../icons/baseline-warning-24px.svg";
 import { Context } from "./context";
 import Svg from "./svg";
-import { StepIndex } from './typings';
+import { StepId } from "./typings";
 
 interface Props {
-  index: StepIndex;
-  title: React.ReactNode;
+  index: number;
+  stepId: StepId;
 }
 
 const CLASS_NAME = "stepper__head";
 
-const Header: React.FunctionComponent<Props> = ({ index, title }) => {
+const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
   const { isLoading, goAt, getStep, getCurrentStep } = React.useContext(
     Context
   );
@@ -24,18 +24,19 @@ const Header: React.FunctionComponent<Props> = ({ index, title }) => {
     error,
     disabled,
     description,
-    className
-  } = getStep(index);
+    className,
+    title
+  } = getStep(stepId);
 
-  const active = Boolean(current && current.index === index);
+  const active = Boolean(current && current.stepId === stepId);
   const disabled$ =
     disabled || isLoading() || !Boolean(active || completed || error);
 
-  const onClick = () => goAt(index);
+  const onClick = () => goAt(stepId);
 
   return (
     <button
-      tabIndex={0}
+      tabIndex={index}
       disabled={disabled$}
       onClick={onClick}
       className={classnames(className, CLASS_NAME, {

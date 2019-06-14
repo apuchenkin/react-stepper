@@ -1,7 +1,7 @@
 import * as React from "react";
 
-type IsLoading = (stepIndex: number) => boolean;
-type SetLoading = (stepIndex: number, loading: boolean) => void;
+type IsLoading = (stepIndex: string) => boolean;
+type SetLoading = (stepIndex: string, loading: boolean) => void;
 
 interface ContextProps {
   isLoading: IsLoading;
@@ -14,12 +14,12 @@ export const LoadingContext = React.createContext<ContextProps>({
 });
 
 interface Action {
-  stepIndex: number;
+  stepIndex: string;
   loading: boolean;
 }
 
 interface State {
-  [key: number]: boolean;
+  [key: string]: boolean;
 }
 
 const reducer = (state: State, action: Action) => {
