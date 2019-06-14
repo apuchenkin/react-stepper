@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Context, StepConfig, StepIndex } from "./context";
+import { Context } from "./context";
+import { StepConfig, StepIndex } from './typings';
 
 interface Props extends StepConfig {
   index: StepIndex;

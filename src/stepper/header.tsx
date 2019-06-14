@@ -2,8 +2,9 @@ import classnames from "classnames";
 import * as React from "react";
 import doneIcon from "../../icons/baseline-done-24px.svg";
 import warningIcon from "../../icons/baseline-warning-24px.svg";
-import { Context, StepIndex } from "./context";
+import { Context } from "./context";
 import Svg from "./svg";
+import { StepIndex } from './typings';
 
 interface Props {
   index: StepIndex;

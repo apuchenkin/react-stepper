@@ -1,9 +1,10 @@
 import classnames from "classnames";
 import * as React from "react";
-import StepperProvider, { Handlers } from "./context";
+import StepperProvider from "./context";
 import Header from "./header";
 import StepperProgress from "./progress";
 import "./stepper.scss";
+import { Handlers } from './typings';
 
 interface Props {
   initialStep?: number;
