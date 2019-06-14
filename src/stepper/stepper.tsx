@@ -1,23 +1,29 @@
 import classnames from "classnames";
 import * as React from "react";
-import StepperProvider, { StepperController } from "./context";
+import StepperProvider, { Handlers } from "./context";
 import Header from "./header";
 import StepperProgress from "./progress";
 import "./stepper.scss";
 
 interface Props {
   initialStep?: number;
-  onComplete?: (context: StepperController) => void;
+  onResolve?: Handlers.OnResolve;
+  onReject?: Handlers.OnReject;
   className?: string;
 }
 
 const Stepper: React.FunctionComponent<Props> = ({
-  onComplete,
+  onResolve,
+  onReject,
   initialStep,
   className,
   children
 }) => (
-  <StepperProvider initialStep={initialStep} onComplete={onComplete}>
+  <StepperProvider
+    initialStep={initialStep}
+    onResolve={onResolve}
+    onReject={onReject}
+  >
     {({ getSteps, getCurrentStep }) => {
       const currentStep = getCurrentStep();
       const steps = getSteps();

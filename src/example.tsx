@@ -6,13 +6,24 @@ import { Step1, Step2, Step3 } from "./steps";
 const StepperExample: React.FunctionComponent = () => {
   const { isLoading, setLoading } = React.useContext(LoadingContext);
 
-  const onComplete = (context: StepperController) => {
+  const onComplete = (data: boolean) => {
     setLoading(3, true);
     setTimeout(() => {
       setLoading(3, false);
-      alert(`completed ${context.getData(3)}`);
+      alert(`completed ${data}`);
     }, 1000);
   };
+
+  const onResolve = (ctx: StepperController) => {
+    const steps = ctx.getSteps();
+
+    if (
+      steps.length &&
+      steps.every(step => step.completed)
+    ) {
+      onComplete(ctx.getData(3));
+    }
+  }
 
   const initial = {
     step2: true,
@@ -20,7 +31,7 @@ const StepperExample: React.FunctionComponent = () => {
   };
 
   return (
-    <Stepper initialStep={2} onComplete={onComplete}>
+    <Stepper initialStep={2} onResolve={onResolve}>
       <Step
         index={1}
         data={initial}

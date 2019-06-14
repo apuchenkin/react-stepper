@@ -40,7 +40,7 @@ const Step3 = () => {
       <fieldset>
         <label>
           Step 1 data:
-          {data1}
+          <pre>{JSON.stringify(data1)}</pre>
         </label>
         <label>
           Step 2 data: Name: {data2.name}, Email: {data2.email}

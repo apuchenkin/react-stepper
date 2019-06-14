@@ -46,6 +46,12 @@ export namespace Selectors {
   export type GetData = (index: StepIndex, fallback?: StepData) => StepData;
 }
 
+// tslint:disable-next-line:no-namespace
+export namespace Handlers {
+  export type OnResolve = (context: StepperController) => void;
+  export type OnReject = (context: StepperController) => void;
+}
+
 export interface StepperController {
   createStep: Actions.CreateStep;
   removeStep: Actions.RemoveStep;
@@ -80,7 +86,8 @@ export const Context = React.createContext<StepperController>({
 
 interface Props {
   children: (context: StepperController) => React.ReactNode;
-  onComplete: (context: StepperController) => void;
+  onResolve: Handlers.OnResolve;
+  onReject: Handlers.OnReject;
   initialStep?: StepIndex;
 }
 
@@ -93,7 +100,8 @@ interface State {
 
 const StepperPorvider: React.FunctionComponent<Props> = ({
   initialStep = 1,
-  onComplete,
+  onResolve,
+  onReject,
   children
 }) => {
   const [state, setState] = useStateEffects<State>({
@@ -178,6 +186,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     setState(({ current, steps, ...state$ }) => [
       {
         ...state$,
+        // TODO: getNext
         current: current + 1,
         steps: {
           ...steps,
@@ -189,18 +198,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           }
         }
       },
-      () => {
-        const ctx = contextRef.current;
-
-        // TODO: Probably we would like to excecute onComplete immediately after resolve, howewer without state change
-        // Do we even nned onComplete in this case?
-        if (
-          ctx.getSteps().length &&
-          ctx.getSteps().every(step => step.completed)
-        ) {
-          onComplete(ctx);
-        }
-      }
+      () => onResolve(contextRef.current),
     ]);
   };
 
@@ -217,7 +215,8 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
             error
           }
         }
-      }
+      },
+      () => onReject(contextRef.current),
     ]);
 
   const context = {
