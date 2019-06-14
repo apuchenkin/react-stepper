@@ -1,5 +1,6 @@
 import * as React from "react";
 import useStateEffects from "react-state-effects";
+import StepError from "./error";
 import {
   Actions,
   Handlers,
@@ -29,8 +30,8 @@ export const Context = React.createContext<StepperController>({
 
 interface Props {
   children: (context: StepperController) => React.ReactNode;
-  onResolve: Handlers.OnResolve;
-  onReject: Handlers.OnReject;
+  onResolve?: Handlers.OnResolve;
+  onReject?: Handlers.OnReject;
   initialStep?: StepId;
 }
 
@@ -148,11 +149,11 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           }
         }
       },
-      () => onResolve(contextRef.current)
+      onResolve && (() => onResolve(contextRef.current))
     ]);
   };
 
-  const reject: Actions.Reject = error =>
+  const reject: Actions.Reject = (message, description) =>
     setState(({ current, steps, ...state$ }) => [
       {
         ...state$,
@@ -162,11 +163,11 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           [current]: {
             ...steps[current],
             completed: false,
-            error
+            error: new StepError(message, description)
           }
         }
       },
-      () => onReject(contextRef.current)
+      onReject && (() => onReject(contextRef.current))
     ]);
 
   const context = {

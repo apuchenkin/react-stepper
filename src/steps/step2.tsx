@@ -22,7 +22,7 @@ const Step2 = () => {
       const email = emailRef.current && emailRef.current.value;
 
       if (name.length < 3) {
-        reject(new Error("invalid name"));
+        reject("Invalid name", "Please use at least 3 characters");
       } else {
         resolve({
           email,

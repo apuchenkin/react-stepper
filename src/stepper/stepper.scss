@@ -133,5 +133,9 @@ $stepper_padding: 24px !default;
       @include mdc-typography(caption);
       color: mdc-theme-prop-value(text-secondary-on-light);
     }
+
+    &--error &__title > &__description {
+      color: mdc-theme-prop-value(error);
+    }
   }
 }

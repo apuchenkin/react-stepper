@@ -18,7 +18,7 @@ const StepperExample: React.FunctionComponent = () => {
     const steps = ctx.getSteps();
 
     if (steps.length && steps.every(step => step.completed)) {
-      onComplete(ctx.getData(3));
+      onComplete(ctx.getData(STEP3));
     }
   };
 
@@ -41,7 +41,7 @@ const StepperExample: React.FunctionComponent = () => {
       <StepperContext.Consumer>
         {stepperContext =>
           stepperContext.getData(STEP1, initial).step2 && (
-            <Step stepId={STEP2} title="Step Two" loading={isLoading(STEP2)}>
+            <Step stepId={STEP2} title="Step Two" loading={isLoading(STEP2)} description="Name is required">
               <Step2 />
             </Step>
           )

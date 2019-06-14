@@ -57,8 +57,11 @@ const Header: React.FunctionComponent<Props> = ({ index, stepId }) => {
         {!error && !completed && index}
       </span>
       <span className={`${CLASS_NAME}__title`}>
-        {title}
-        {description && (
+        {error ? error.msg : title}
+        {error && error.description && (
+          <span className={`${CLASS_NAME}__description`}>{error.description}</span>
+        )}
+        {!error && description && (
           <span className={`${CLASS_NAME}__description`}>{description}</span>
         )}
       </span>
