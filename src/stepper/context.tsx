@@ -28,7 +28,7 @@ export interface StepState extends StepConfig {
 export namespace Actions {
   export type Resolve = (data: StepData) => void;
   export type Reject = (error: StepError) => void;
-  export type CreateStep = (config: StepConfig) => Promise<StepIndex>;
+  export type CreateStep = (index: StepIndex, config: StepConfig) => void;
   export type UpdateStep = (
     index: StepIndex,
     state: Partial<StepState>
@@ -43,7 +43,7 @@ export namespace Selectors {
   export type GetSteps = () => StepState[];
   export type GetCurrentStep = () => StepState | undefined;
   export type GetStep = (index: StepIndex) => StepState | undefined;
-  export type GetData = (index: StepIndex) => StepData | undefined;
+  export type GetData = (index: StepIndex, fallback?: StepData) => StepData;
 }
 
 export interface StepperController {
@@ -81,12 +81,11 @@ export const Context = React.createContext<StepperController>({
 interface Props {
   children: (context: StepperController) => React.ReactNode;
   onComplete: (context: StepperController) => void;
-  initialStep?: number;
+  initialStep?: StepIndex;
 }
 
 interface State {
   current: StepIndex;
-  index: StepIndex;
   steps: {
     [key: number]: StepState;
   };
@@ -99,30 +98,25 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
 }) => {
   const [state, setState] = useStateEffects<State>({
     current: initialStep,
-    index: 1,
     steps: {}
   });
 
-  const createStep: Actions.CreateStep = config => {
-    return new Promise(res => {
-      setState(state$ => [
-        {
-          ...state$,
-          index: state$.index + 1,
-          steps: {
-            ...state$.steps,
-            [state$.index]: {
-              ...config,
-              completed: state$.current > state$.index,
-              data: config.data,
-              index: state$.index,
-              loading: false
-            }
+  const createStep: Actions.CreateStep = (index, config) => {
+    setState(state$ => [
+      {
+        ...state$,
+        steps: {
+          ...state$.steps,
+          [index]: {
+            ...config,
+            completed: state$.current > index,
+            data: config.data,
+            index,
+            loading: false
           }
-        },
-        () => res(state$.index)
-      ]);
-    });
+        }
+      }
+    ]);
   };
 
   const removeStep: Actions.RemoveStep = stepId => {
@@ -175,9 +169,9 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
 
   const getCurrentStep: Selectors.GetCurrentStep = () => getStep(state.current);
 
-  const getData: Selectors.GetData = index => {
+  const getData: Selectors.GetData = (index, fallback) => {
     const stepState = getStep(index);
-    return stepState && stepState.data;
+    return (stepState && stepState.data) || fallback;
   };
 
   const resolve: Actions.Resolve = data => {
