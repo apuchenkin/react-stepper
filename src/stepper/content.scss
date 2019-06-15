@@ -1,7 +1,7 @@
 @import "@material/typography/mdc-typography";
 
 .stepper {
-  @include mdc-typography(body1);
+  $stepper: &;
 
   &__content {
     padding: 24px 24px 0 24px;
@@ -11,6 +11,17 @@
       flex-direction: row;
       align-items: center;
       height: 64px;
+    }
+  }
+
+  &--vertical {
+    #{$stepper}__content {
+      padding: 12px 24px 24px 12px;
+
+      &__actions {
+        margin-top: 16px;
+        height: 48px;
+      }
     }
   }
 }

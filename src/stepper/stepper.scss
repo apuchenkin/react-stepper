@@ -9,6 +9,7 @@ $stepper_header_height: 72px !default;
 $stepper_padding: 24px !default;
 
 .stepper {
+  $stepper: &;
   @include mdc-typography-base();
 
   background: mdc-theme-prop-value(surface);
@@ -17,6 +18,7 @@ $stepper_padding: 24px !default;
   border-radius: 3px;
   overflow: hidden;
   position: relative;
+  display: flex;
 
   &__progress {
     position: absolute;
@@ -24,24 +26,20 @@ $stepper_padding: 24px !default;
     right: 0;
   }
 
+  &__connector {
+    border: 0;
+    height: 0;
+    width: 0;
+    border: 0 none;
+    flex: auto;
+    color: $material-color-grey-400;
+  }
+
   &__header {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: $stepper_header_height;
     box-shadow: 0 4px 4px -4px $material-color-grey-400;
-
-    &__connector {
-      border: 0;
-      height: 0;
-      border-top-width: 1px;
-      border-top-style: solid;
-      flex: auto;
-      min-width: 32px;
-      margin: 0 -12px;
-      color: $material-color-grey-400;
-    }
   }
 
   &__head {
@@ -136,6 +134,58 @@ $stepper_padding: 24px !default;
 
     &--error &__title > &__description {
       color: mdc-theme-prop-value(error);
+    }
+  }
+
+  &--horizontal {
+    flex-direction: column;
+
+    #{$stepper}__header {
+      flex-direction: row;
+      height: $stepper_header_height;
+    }
+
+    #{$stepper}__connector {
+      border-top-width: 1px;
+      border-top-style: solid;
+      min-width: 32px;
+      margin: 0 -($stepper_padding / 2);
+    }
+  }
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+
+    #{$stepper}__header {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+    }
+
+    #{$stepper}__head {
+      height: 64px;
+
+      &__index {
+        margin-right: $stepper_padding / 2;
+      }
+    }
+
+    #{$stepper}__section {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: stretch;
+      margin-left: $stepper_padding;
+    }
+
+    #{$stepper}__connector {
+      border-left-width: 1px;
+      border-left-style: solid;
+      min-height: 32px;
+      margin: -($stepper_padding / 2) ($stepper_padding / 2);
+      height: auto;
     }
   }
 }

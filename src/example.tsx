@@ -28,7 +28,7 @@ const StepperExample: React.FunctionComponent = () => {
   };
 
   return (
-    <Stepper initialStep={STEP2} onResolve={onResolve}>
+    <Stepper vertical={true} initialStep={STEP2} onResolve={onResolve}>
       <Step
         stepId={STEP1}
         data={initial}
