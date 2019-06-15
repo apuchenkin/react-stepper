@@ -1,7 +1,7 @@
 {
-  "name": "react-stepper",
+  "name": "react-material-stepper",
   "version": "1.0.0",
-  "description": "",
+  "description": "React stepper component",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -9,8 +9,12 @@
     "prettier": "prettier --write src/**/*",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
-  "author": "Artem Puchenkin",
+  "author": "Artem Puchenkin <apuchenkin@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/apuchenkin/react-stepper.git"
+  },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^3.0.0",
