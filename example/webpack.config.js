@@ -21,16 +21,23 @@ module.exports = {
           { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
           { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
           {
+            test: /\.css$/,
+            use: [
+              "style-loader",
+              "css-loader",
+            ]
+          },
+          {
             test: /\.scss$/,
             use: [
-                "style-loader",
-                "css-loader",
-                {
-                  loader: 'sass-loader',
-                  options: {
-                    includePaths: ['./node_modules']
-                  }
+              "style-loader",
+              "css-loader",
+              {
+                loader: 'sass-loader',
+                options: {
+                  includePaths: ['./node_modules']
                 }
+              }
             ]
           },
           {

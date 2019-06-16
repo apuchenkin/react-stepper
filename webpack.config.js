@@ -1,13 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   mode: 'development',
-
-  // entry: [
-  //   "./src/index.tsx",
-  //   "./src/index.scss"
-  // ],
 
   entry: "./src/index.tsx",
 
@@ -32,10 +28,23 @@ module.exports = {
             test: /\.scss$/,
             use: [
               MiniCssExtractPlugin.loader,
-              "css-loader",
+              {
+                loader: 'css-loader',
+                options: {
+                  sourceMap: true,
+                },
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  sourceMap: true,
+                  plugins: () => [autoprefixer()]
+                }
+              },
               {
                 loader: 'sass-loader',
                 options: {
+                  sourceMap: true,
                   includePaths: ['./node_modules']
                 }
               }
