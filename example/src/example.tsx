@@ -1,4 +1,3 @@
-// import "material-components-web/material-components-web.scss";
 import * as React from "react";
 import Stepper, { Step, StepperContext, StepperController } from "react-material-stepper";
 import LoadingProvider, { LoadingContext } from "./loadingContext";

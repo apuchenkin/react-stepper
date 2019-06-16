@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import * as React from "react";
-import doneIcon from "../../icons/baseline-done-24px.svg";
-import warningIcon from "../../icons/baseline-warning-24px.svg";
+import doneIcon from "../icons/baseline-done-24px.svg";
+import warningIcon from "../icons/baseline-warning-24px.svg";
 import { Context } from "./context";
 import Svg from "./svg";
 import { StepId } from "./typings";

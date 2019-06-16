@@ -2,9 +2,14 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
 
-  entry: "./src/stepper/index.tsx",
+  // entry: [
+  //   "./src/index.tsx",
+  //   "./src/index.scss"
+  // ],
+
+  entry: "./src/index.tsx",
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -16,7 +21,7 @@ module.exports = {
   devtool: "source-map",
 
   resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"]
+      extensions: [".ts", ".tsx", ".js"]
   },
 
   module: {
@@ -45,8 +50,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: 'react-stepper.css'
     }),
   ],
 
