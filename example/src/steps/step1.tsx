@@ -1,7 +1,6 @@
 import * as React from "react";
+import { StepperAction, StepperContent, StepperContext } from "react-material-stepper";
 import { LoadingContext } from "../loadingContext";
-import { StepperAction, StepperContent, StepperContext } from "../stepper";
-
 export const STEP1 = "step-one";
 
 const Step1: React.FunctionComponent = () => {

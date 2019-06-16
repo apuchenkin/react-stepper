@@ -1,18 +1,31 @@
 import * as React from "react";
 import useStateEffects from "react-state-effects";
+import * as Actions from './actions';
 import StepError from "./error";
+import * as Selectors from './selectors';
+
 import {
-  Actions,
-  Handlers,
-  Selectors,
   StepId,
-  StepperController,
   StepState
 } from "./typings";
 
 const contextFallback = () => {
   throw new Error("createStep invoked outside of Stepper scope");
 };
+
+export interface StepperController {
+  createStep: Actions.CreateStep;
+  removeStep: Actions.RemoveStep;
+  updateStep: Actions.UpdateStep;
+  goAt: Actions.goAt;
+  resolve: Actions.Resolve;
+  reject: Actions.Reject;
+  isLoading: Selectors.IsLoading;
+  getSteps: Selectors.GetSteps;
+  getCurrentStep: Selectors.GetCurrentStep;
+  getStep: Selectors.GetStep;
+  getData: Selectors.GetData;
+}
 
 export const Context = React.createContext<StepperController>({
   createStep: contextFallback,
@@ -28,10 +41,14 @@ export const Context = React.createContext<StepperController>({
   updateStep: contextFallback
 });
 
+
+export type OnResolve = (context: StepperController) => void;
+export type OnReject = (context: StepperController) => void;
+
 interface Props {
   children: (context: StepperController) => React.ReactNode;
-  onResolve?: Handlers.OnResolve;
-  onReject?: Handlers.OnReject;
+  onResolve?: OnResolve;
+  onReject?: OnReject;
   initialStep?: StepId;
 }
 

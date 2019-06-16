@@ -1,6 +1,5 @@
 import classnames from "classnames";
 import * as React from "react";
-import "./content.scss";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   actions?: React.ReactNode;

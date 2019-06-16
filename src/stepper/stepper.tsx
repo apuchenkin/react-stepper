@@ -1,15 +1,14 @@
 import classnames from "classnames";
 import * as React from "react";
-import StepperProvider from "./context";
+import StepperProvider, { OnReject, OnResolve } from "./context";
 import Header from "./header";
 import StepperProgress from "./progress";
-import "./stepper.scss";
-import { Handlers, StepId } from "./typings";
+import { StepId } from "./typings";
 
 interface Props {
   initialStep?: StepId;
-  onResolve?: Handlers.OnResolve;
-  onReject?: Handlers.OnReject;
+  onResolve?: OnResolve;
+  onReject?: OnReject;
   className?: string;
   vertical?: boolean;
 }

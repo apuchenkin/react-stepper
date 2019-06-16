@@ -1,6 +1,6 @@
 import * as React from "react";
+import { StepperAction, StepperContent, StepperContext } from "react-material-stepper";
 import { LoadingContext } from "../loadingContext";
-import { StepperAction, StepperContent, StepperContext } from "../stepper";
 import { STEP1 } from "./step1";
 import { STEP2 } from "./step2";
 

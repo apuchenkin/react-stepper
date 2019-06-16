@@ -1,7 +1,9 @@
+// import "material-components-web/material-components-web.scss";
 import * as React from "react";
+import Stepper, { Step, StepperContext, StepperController } from "react-material-stepper";
 import LoadingProvider, { LoadingContext } from "./loadingContext";
-import Stepper, { Step, StepperContext, StepperController } from "./stepper";
 import { Step1, STEP1, Step2, STEP2, Step3, STEP3 } from "./steps";
+import './style.scss';
 
 const StepperExample: React.FunctionComponent = () => {
   const { isLoading, setLoading } = React.useContext(LoadingContext);

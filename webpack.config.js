@@ -1,13 +1,16 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
 
-  entry: "./src/index.tsx",
+  entry: "./src/stepper/index.tsx",
 
   output: {
-      filename: "bundle.js",
-      path: __dirname + "/dist"
+    path: path.resolve(__dirname, 'dist'),
+    filename: "react-stepper.js",
+    library: "reactStepper",
+    libraryTarget: 'umd'
   },
 
   devtool: "source-map",
@@ -23,14 +26,14 @@ module.exports = {
           {
             test: /\.scss$/,
             use: [
-                "style-loader",
-                "css-loader",
-                {
-                  loader: 'sass-loader',
-                  options: {
-                    includePaths: ['./node_modules']
-                  }
+              MiniCssExtractPlugin.loader,
+              "css-loader",
+              {
+                loader: 'sass-loader',
+                options: {
+                  includePaths: ['./node_modules']
                 }
+              }
             ]
           },
           {
@@ -40,6 +43,13 @@ module.exports = {
       ]
   },
 
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+  ],
+
   optimization: {
     splitChunks: {
       // include all types of chunks
@@ -47,15 +57,14 @@ module.exports = {
     }
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.ejs',
-      production: process.env.NODE_ENV === 'production',
-    }),
-  ],
-
-  externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
-  }
+  externals: [
+    'react',
+    'react-dom',
+    'classnames',
+    'react-state-effects',
+    '@material/button',
+    '@material/linear-progress',
+    '@material/theme',
+    '@material/typography'
+  ]
 };
