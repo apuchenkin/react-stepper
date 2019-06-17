@@ -5,8 +5,7 @@
   "main": "dist/react-stepper.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "pack": "webpack",
+    "build": "tsc && webpack",
     "prettier": "prettier --write src/**/*",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },

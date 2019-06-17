@@ -12,6 +12,8 @@ interface Props extends StepConfig {
 const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
   const { createStep, removeStep, updateStep } = React.useContext(Context);
 
+  console.log('render', props);
+
   React.useEffect(() => {
     createStep(stepId, props);
 
@@ -27,4 +29,4 @@ const Step: React.FunctionComponent<Props> = ({ stepId, ...props }) => {
   return null;
 };
 
-export default Step;
+export default React.memo(Step);
