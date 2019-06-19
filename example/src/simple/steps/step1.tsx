@@ -1,21 +1,23 @@
 import * as React from "react";
-import { StepperAction, StepperContent, StepperContext } from "react-material-stepper";
-import { LoadingContext } from "../../loadingContext";
+import {
+  StepperAction,
+  StepperContent,
+  StepperContext
+} from "react-material-stepper";
 export const STEP1 = "step-one";
 
-const Step1: React.FunctionComponent = () => {
+interface Props {
+  vertical?: boolean;
+}
+
+const Step1: React.FunctionComponent<Props> = ({ vertical = false }) => {
   const { resolve, getData } = React.useContext(StepperContext);
-  const { setLoading } = React.useContext(LoadingContext);
 
   const data = getData(STEP1);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setLoading(STEP1, true);
-    setTimeout(() => {
-      resolve("step1 resolved data");
-      setLoading(STEP1, false);
-    }, 1000);
+    resolve("step1 resolved data");
   };
 
   return (
@@ -23,20 +25,20 @@ const Step1: React.FunctionComponent = () => {
       onSubmit={onSubmit}
       actions={
         <React.Fragment>
-          <StepperAction disabled={true}>Back</StepperAction>
-          <StepperAction align="right" type="reset" disabled={true}>
-            Reset
-          </StepperAction>
-          <StepperAction align="right" type="submit">
+          {!vertical && <StepperAction disabled={true}>Back</StepperAction>}
+          {!vertical && (
+            <StepperAction align="right" type="reset" disabled={true}>
+              Reset
+            </StepperAction>
+          )}
+          <StepperAction align={vertical ? "left" : "right"} type="submit">
             Continue
           </StepperAction>
         </React.Fragment>
       }
     >
       Step1 resolved:
-      <pre>
-        {data}
-      </pre>
+      <pre>{data}</pre>
     </StepperContent>
   );
 };
