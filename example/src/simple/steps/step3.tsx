@@ -24,6 +24,7 @@ const Step3: React.FunctionComponent<Props> = ({ vertical = false }) => {
 
   const data1 = getData(STEP1);
   const data2 = getData(STEP2) || {};
+  const data3 = getData(STEP3);
 
   return (
     <StepperContent
@@ -42,12 +43,18 @@ const Step3: React.FunctionComponent<Props> = ({ vertical = false }) => {
         </React.Fragment>
       }
     >
-      <fieldset>
-        <label>Step 1 data: {data1}</label>
-        <label>
-          Step 2 data: Name: {data2.name}, Email: {data2.email}
-        </label>
-      </fieldset>
+      <section>
+        <h3>Step 1 data</h3>
+        <pre>{data1}</pre>
+      </section>
+      <section>
+        <h3>Step 2 data</h3>
+        <pre>Login: {data2.login}, Email: {data2.email}</pre>
+      </section>
+      <section>
+        <h3>Step 3 data</h3>
+        <pre>{String(data3)}</pre>
+      </section>
     </StepperContent>
   );
 };

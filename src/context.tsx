@@ -1,13 +1,10 @@
 import * as React from "react";
 import useStateEffects from "react-state-effects";
-import * as Actions from './actions';
+import * as Actions from "./actions";
 import StepError from "./error";
-import * as Selectors from './selectors';
+import * as Selectors from "./selectors";
 
-import {
-  StepId,
-  StepState
-} from "./typings";
+import { StepId, StepState } from "./typings";
 
 const contextFallback = () => {
   throw new Error("createStep invoked outside of Stepper scope");
@@ -41,7 +38,6 @@ export const Context = React.createContext<StepperController>({
   updateStep: contextFallback
 });
 
-
 export type OnResolve = (context: StepperController) => void;
 export type OnReject = (context: StepperController) => void;
 
@@ -74,7 +70,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   const getNextStepId = (stepId: StepId) => {
     const index = getIndex(stepId);
     const nextIndex =
-      index + 1 < state.stepIndex.length ? index + 1 : state.stepIndex.length;
+      index + 1 < state.stepIndex.length ? index + 1 : index;
 
     return state.stepIndex[nextIndex];
   };
