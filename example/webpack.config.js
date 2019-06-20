@@ -3,10 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'development',
 
-  entry: "./src/index.tsx",
+  entry: {
+    'simple': "./src/simple/index.tsx",
+    'vertical': "./src/vertical/index.tsx",
+    'full': "./src/advanced/index.tsx",
+  },
 
   output: {
-      filename: "bundle.js",
+      filename: "[name]/index.js",
       path: __dirname + "/dist"
   },
 
@@ -47,16 +51,23 @@ module.exports = {
       ]
   },
 
-  optimization: {
-    splitChunks: {
-      // include all types of chunks
-      chunks: 'all'
-    }
-  },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.ejs',
+      chunks: ['simple'],
+      filename: 'simple/index.html',
+      production: process.env.NODE_ENV === 'production',
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.ejs',
+      chunks: ['vertical'],
+      filename: 'vertical/index.html',
+      production: process.env.NODE_ENV === 'production',
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.ejs',
+      chunks: ['full'],
+      filename: 'full/index.html',
       production: process.env.NODE_ENV === 'production',
     }),
   ],
