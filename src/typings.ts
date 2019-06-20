@@ -12,6 +12,7 @@ export interface StepConfig {
   disabled?: boolean;
   data?: StepData;
   className?: string;
+  index?: number;
 }
 
 export interface StepState extends StepConfig {

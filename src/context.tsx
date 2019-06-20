@@ -76,24 +76,33 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   };
 
   const createStep: Actions.CreateStep = (stepId, config) => {
-    setState(state$ => [
-      {
-        ...state$,
-        stepIndex: [...state$.stepIndex, stepId],
-        steps: {
-          ...state$.steps,
-          [stepId]: {
-            ...config,
-            completed:
-              state$.stepIndex.indexOf(state$.current) < 0 &&
-              state$.current !== stepId,
-            data: config.data,
-            loading: false,
-            stepId
+    setState(state$ => {
+      const stepState = state$.steps[stepId] || config;
+      const index = stepState.index || state$.stepIndex.length;
+      const completed = state$.stepIndex.indexOf(state$.current) < 0
+        && state$.current !== stepId;
+
+      return [
+        {
+          ...state$,
+          stepIndex: [
+            ...state$.stepIndex.slice(0, index),
+            stepId,
+            ...state$.stepIndex.slice(index),
+          ],
+          steps: {
+            ...state$.steps,
+            [stepId]: {
+              completed,
+              index,
+              loading: false,
+              stepId,
+              ...stepState,
+            }
           }
         }
-      }
-    ]);
+      ]
+    });
   };
 
   const removeStep: Actions.RemoveStep = stepId => {
@@ -101,11 +110,6 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
       {
         ...state$,
         stepIndex: state$.stepIndex.filter(stepId$ => stepId$ !== stepId),
-        steps: Object.keys(state$.steps).reduce(
-          (acc, id) =>
-            Number(id) === stepId ? acc : { ...acc, [id]: state$.steps[id] },
-          {}
-        )
       }
     ]);
   };
