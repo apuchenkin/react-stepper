@@ -1,0 +1,20 @@
+@import "@material/theme/color-palette";
+@import "@material/theme/mdc-theme";
+
+$stepper-color-connector: $material-color-grey-400 !default;
+$stepper-color-shadow: $material-color-grey-400 !default;
+$stepper-color-border: $material-color-grey-500 !default;
+$stepper-color-background: mdc-theme-prop-value(background) !default;
+$stepper-color-hover: rgba(black, 0.06) !default;
+$stepper-color-index: $mdc-theme-primary !default;
+$stepper-color-success: $material-color-green-500 !default;
+$stepper-color-error: mdc-theme-prop-value(error);
+
+$stepper-border-radius: 3px !default;
+$stepper-circle-size: 24px !default;
+$stepper-header-height-horizontal: 72px !default;
+$stepper-header-height-vertical: 64px !default;
+$stepper-padding: 24px !default;
+$stepper-connector-min-size: 32px !default;
+$stepper-action-height-horizontal: 64px !default;
+$stepper-action-height-vertical: 48px !default;

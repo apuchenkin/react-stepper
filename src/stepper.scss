@@ -1,21 +1,16 @@
-@import "@material/theme/color-palette";
-@import "@material/theme/mdc-theme";
+@import './vars';
+
 @import "@material/typography/mdc-typography";
 @import "@material/linear-progress/mdc-linear-progress";
-
-$stepper_circle_size: 24px !default;
-$stepper_color_success: $material-color-green-500 !default;
-$stepper_header_height: 72px !default;
-$stepper_padding: 24px !default;
 
 .stepper {
   $stepper: &;
   @include mdc-typography-base();
 
-  background: mdc-theme-prop-value(surface);
-  border: 1px solid $material-color-grey-500;
-  box-shadow: 0 0 2px 2px $material-color-grey-400;
-  border-radius: 3px;
+  background: $stepper-color-background;
+  border: 1px solid $stepper-color-border;
+  box-shadow: 0 0 2px 2px $stepper-color-shadow;
+  border-radius: $stepper-border-radius;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -32,14 +27,14 @@ $stepper_padding: 24px !default;
     width: 0;
     border: 0 none;
     flex: auto;
-    color: $material-color-grey-400;
+    color: $stepper-color-connector;
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 4px -4px $material-color-grey-400;
+    box-shadow: 0 4px 4px -4px $stepper-color-shadow;
   }
 
   &__head {
@@ -47,17 +42,16 @@ $stepper_padding: 24px !default;
     flex-direction: row;
     align-items: center;
     padding: 8px 12px;
-    height: $stepper_header_height;
     border: 0;
     background-color: transparent;
     color: mdc-theme-prop-value(text-secondary-on-light);
-    padding: 0 $stepper_padding;
+    padding: 0 $stepper-padding;
 
     &:not(&--disabled) {
       cursor: pointer;
 
       &:hover {
-        background-color: rgba(black, 0.06);
+        background-color: $stepper-color-hover;
       }
     }
 
@@ -72,7 +66,7 @@ $stepper_padding: 24px !default;
     }
 
     &--active &__index {
-      background: $mdc-theme-primary;
+      background: $stepper-color-index;
     }
 
     &--disabled &__index {
@@ -84,7 +78,7 @@ $stepper_padding: 24px !default;
     }
 
     &--error {
-      color: mdc-theme-prop-value(error);
+      color: $stepper-color-error;
     }
 
     &--error &__index {
@@ -92,11 +86,11 @@ $stepper_padding: 24px !default;
     }
 
     &--error &__icon {
-      width: $stepper_circle_size;
-      height: $stepper_circle_size;
+      width: $stepper-circle-size;
+      height: $stepper-circle-size;
 
       svg {
-        fill: mdc-theme-prop-value(error);
+        fill: $stepper-color-error;
       }
     }
 
@@ -105,8 +99,8 @@ $stepper_padding: 24px !default;
 
       background: mdc-theme-prop-value(text-hint-on-light);
       color: mdc-theme-prop-value(text-primary-on-dark);
-      width: $stepper_circle_size;
-      height: $stepper_circle_size;
+      width: $stepper-circle-size;
+      height: $stepper-circle-size;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -133,7 +127,7 @@ $stepper_padding: 24px !default;
     }
 
     &--error &__title > &__description {
-      color: mdc-theme-prop-value(error);
+      color: $stepper-color-error;
     }
   }
 
@@ -142,14 +136,18 @@ $stepper_padding: 24px !default;
 
     #{$stepper}__header {
       flex-direction: row;
-      height: $stepper_header_height;
+      height: $stepper-header-height-horizontal;
+    }
+
+    #{$stepper}__head {
+      height: $stepper-header-height-horizontal;
     }
 
     #{$stepper}__connector {
       border-top-width: 1px;
       border-top-style: solid;
-      min-width: 32px;
-      margin: 0 -($stepper_padding / 2);
+      min-width: $stepper-connector-min-size;
+      margin: 0 -($stepper-padding / 2);
     }
   }
 
@@ -165,10 +163,10 @@ $stepper_padding: 24px !default;
     }
 
     #{$stepper}__head {
-      height: 64px;
+      height: $stepper-header-height-vertical;
 
       &__index {
-        margin-right: $stepper_padding / 2;
+        margin-right: $stepper-padding / 2;
       }
     }
 
@@ -177,14 +175,14 @@ $stepper_padding: 24px !default;
       flex-direction: row;
       align-items: stretch;
       justify-content: stretch;
-      margin-left: $stepper_padding;
+      margin-left: $stepper-padding;
     }
 
     #{$stepper}__connector {
       border-left-width: 1px;
       border-left-style: solid;
-      min-height: 32px;
-      margin: -($stepper_padding / 2) ($stepper_padding / 2);
+      min-height: $stepper-connector-min-size;
+      margin: -($stepper-padding / 2) ($stepper-padding / 2);
       height: auto;
     }
   }

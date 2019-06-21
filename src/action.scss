@@ -1,3 +1,4 @@
+@import './vars';
 @import "@material/button/mdc-button";
 
 .stepper {
@@ -12,7 +13,7 @@
 
     + .stepper__action {
       margin: 0;
-      margin-right: 12px;
+      margin-right: ($stepper-padding / 2);
     }
 
     &.mdc-button-align--right {
@@ -20,7 +21,7 @@
 
       + .mdc-button-align--right {
         margin: 0;
-        margin-left: 12px;
+        margin-left: ($stepper-padding / 2);
       }
     }
   }

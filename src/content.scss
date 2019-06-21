@@ -1,26 +1,27 @@
+@import "./vars";
 @import "@material/typography/mdc-typography";
 
 .stepper {
   $stepper: &;
 
   &__content {
-    padding: 24px 24px 0 24px;
+    padding: $stepper-padding $stepper-padding 0 $stepper-padding;
 
     &__actions {
       display: flex;
       flex-direction: row;
       align-items: center;
-      height: 64px;
+      height: $stepper-action-height-horizontal;
     }
   }
 
   &--vertical {
     #{$stepper}__content {
-      padding: 12px 24px 24px 12px;
+      padding: ($stepper-padding / 2) $stepper-padding $stepper-padding ($stepper-padding / 2);
 
       &__actions {
         margin-top: 16px;
-        height: 48px;
+        height: $stepper-action-height-vertical;
       }
     }
   }
