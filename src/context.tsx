@@ -38,11 +38,12 @@ export const Context = React.createContext<StepperController>({
   updateStep: contextFallback
 });
 
-export type OnResolve = (context: StepperController) => void;
-export type OnReject = (context: StepperController) => void;
+export type OnResolve = (stepId: StepId) => void;
+export type OnReject = (stepId: StepId) => void;
 
 interface Props {
   children: (context: StepperController) => React.ReactNode;
+  contextRef?: React.MutableRefObject<StepperController>;
   onResolve?: OnResolve;
   onReject?: OnReject;
   initialStep?: StepId;
@@ -58,6 +59,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
   initialStep = 1,
   onResolve,
   onReject,
+  contextRef,
   children
 }) => {
   const [state, setState] = useStateEffects<State>({
@@ -166,7 +168,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           }
         }
       },
-      onResolve && (() => onResolve(contextRef.current))
+      onResolve && (() => onResolve(current))
     ]);
   };
 
@@ -184,7 +186,7 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
           }
         }
       },
-      onReject && (() => onReject(contextRef.current))
+      onReject && (() => onReject(current))
     ]);
 
   const context = {
@@ -201,11 +203,11 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     updateStep
   };
 
-  const contextRef = React.useRef(context);
-
-  React.useEffect(() => {
-    contextRef.current = context;
-  }, [state]);
+  if (contextRef) {
+    React.useEffect(() => {
+      contextRef.current = context;
+    }, [state]);
+  }
 
   return (
     <Context.Provider value={context}>{children(context)}</Context.Provider>

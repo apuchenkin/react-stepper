@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import * as React from "react";
-import StepperProvider, { OnReject, OnResolve } from "./context";
+import StepperProvider, { OnReject, OnResolve, StepperController } from "./context";
 import Header from "./header";
 import StepperProgress from "./progress";
 import { StepId } from "./typings";
@@ -9,6 +9,7 @@ interface Props {
   initialStep?: StepId;
   onResolve?: OnResolve;
   onReject?: OnReject;
+  contextRef?: React.MutableRefObject<StepperController>;
   className?: string;
   vertical?: boolean;
 }
@@ -21,12 +22,14 @@ const Stepper: React.FunctionComponent<Props> = ({
   initialStep,
   className,
   vertical = false,
+  contextRef,
   children
 }) => (
   <StepperProvider
     initialStep={initialStep}
     onResolve={onResolve}
     onReject={onReject}
+    contextRef={contextRef}
   >
     {({ getSteps, getCurrentStep }) => {
       const currentStep = getCurrentStep();

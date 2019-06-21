@@ -6,20 +6,22 @@ import './style.scss';
 
 const StepperExample: React.FunctionComponent = () => {
   const { isLoading, setLoading } = React.useContext(LoadingContext);
+  const stepperControllerRef = React.useRef<StepperController>();
 
-  const onComplete = (data: boolean) => {
+  const onComplete = (stepId: string) => {
     setLoading(STEP3, true);
     setTimeout(() => {
       setLoading(STEP3, false);
-      alert(`completed ${data}`);
+      alert(`completed ${stepId}`);
     }, 1000);
   };
 
-  const onResolve = (ctx: StepperController) => {
-    const steps = ctx.getSteps();
+  const onResolve = (stepId: any) => {
+    const controller = stepperControllerRef.current;
+    const steps = controller.getSteps();
 
     if (steps.length && steps.every(step => step.completed)) {
-      onComplete(ctx.getData(STEP3));
+      onComplete(stepId);
     }
   };
 
@@ -29,7 +31,7 @@ const StepperExample: React.FunctionComponent = () => {
   };
 
   return (
-    <Stepper  initialStep={STEP2} onResolve={onResolve}>
+    <Stepper contextRef={stepperControllerRef} initialStep={STEP2} onResolve={onResolve}>
       <Step
         stepId={STEP1}
         data={initial}
