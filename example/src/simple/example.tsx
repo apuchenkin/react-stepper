@@ -5,7 +5,7 @@ import { Step1, STEP1, Step2, STEP2, Step3, STEP3 } from "./steps";
 import './style.css';
 
 const StepperExample: React.FunctionComponent = () => (
-  <Stepper initialStep={STEP1}>
+  <Stepper>
     <Step
       stepId={STEP1}
       data="Step 1 initial state"

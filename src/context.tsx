@@ -56,7 +56,7 @@ interface State {
 }
 
 const StepperPorvider: React.FunctionComponent<Props> = ({
-  initialStep = 1,
+  initialStep,
   onResolve,
   onReject,
   contextRef,
@@ -81,12 +81,14 @@ const StepperPorvider: React.FunctionComponent<Props> = ({
     setState(state$ => {
       const stepState = state$.steps[stepId] || config;
       const index = stepState.index || state$.stepIndex.length;
+      const current = state$.current || stepId;
       const completed = state$.stepIndex.indexOf(state$.current) < 0
-        && state$.current !== stepId;
+        && current !== stepId;
 
       return [
         {
           ...state$,
+          current,
           stepIndex: [
             ...state$.stepIndex.slice(0, index),
             stepId,
