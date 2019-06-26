@@ -144,35 +144,68 @@ Additionally `StepperContent` accept `actions` prop, that will be rendered in th
 `StepperAction` extends `button` interface, Could be used in custom steps for convenience and styling.
 Additionally `StepperAction` accept `align` ('left' or 'right') prop.
 
-<!-- ## Customization
+## Customization
 
 ### As part of [material theme]
 
-```jsx
+```scss
+$mdc-theme-primary: #fcb8ab;
+$mdc-theme-secondary: #feeae6;
+$mdc-theme-on-primary: #442b2d;
+$mdc-theme-on-secondary: #442b2d;
+
+@import "react-material-stepper/src/index.scss";
+@import "material-components-web/material-components-web";
 ```
 
 [Material theme]: https://github.com/material-components/material-components-web/tree/master/packages/mdc-theme
 
 ### By SCSS variables
 
+```scss
+$stepper-color-hover: lightblue;
+$stepper-color-index: darkblue;
+$stepper-color-success: green;
+$stepper-color-error: red;
+$stepper-color-connector: cornflowerblue;
+$stepper-header-height-horizontal: 64px;
 
-```jsx
-
+@import "react-material-stepper/src/index.scss";
 ```
 
 ### By CSS override
 
+Stepper components allows passing custom `className`, and use it for override existing styles by applying css rules
+
 ```jsx
+import 'react-material-stepper/dist/react-stepper.css';
+```
 
-``` -->
+```jsx
+<Stepper className="custom-theme">
+  <Step
+    stepId={STEP1}
+    title="Step One"
+  >
+    <Step1 />
+  </Step>
+  ...
+</Stepper>
+```
 
-<!-- ## Examples
+
+```css
+.stepper.custom-theme {
+  background: red;
+}
+```
+
+## Examples
 
 - [Simple horizontal stepper][simple]
 - [Simple verical stepper][vertical]
 - [Full featured stepper][advanced]
 
-
-[simple]: example/src/simple
-[vertical]: example/src/vertical
-[advanced]: example/src/advanced -->
+[simple]: example/src/simple/example.tsx
+[vertical]: example/src/vertical/example.tsx
+[advanced]: example/src/advanced/example.tsx
