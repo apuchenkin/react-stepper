@@ -26,7 +26,8 @@
     "classnames": "^2.2.6",
     "material-components-web": "^3.0.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-material-stepper": "^1.0.0"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
