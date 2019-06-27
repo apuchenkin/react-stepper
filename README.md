@@ -14,6 +14,20 @@ Implementation of [Material Stepper] for React. **React material stepper** encap
 - Default material themes provided
 - Customizable by SCSS
 
+## Examples
+
+- [Simple horizontal stepper][simple] ([source][simple_src])
+- [Simple verical stepper][vertical] ([source][vertical_src])
+- [Full featured stepper][advanced] ([source][advanced_src])
+
+[simple]: https://apuchenkin.github.io/react-stepper/example/dist/simple
+[vertical]: https://apuchenkin.github.io/react-stepper/example/dist/vertical
+[advanced]: https://apuchenkin.github.io/react-stepper/example/dist/full
+
+[simple_src]: example/src/simple
+[vertical_src]: example/src/vertical
+[advanced_src]: example/src/advanced
+
 ## Getting started
 
 ```jsx
@@ -200,13 +214,3 @@ import 'react-material-stepper/dist/react-stepper.css';
   background: red;
 }
 ```
-
-## Examples
-
-- [Simple horizontal stepper][simple]
-- [Simple verical stepper][vertical]
-- [Full featured stepper][advanced]
-
-[simple]: example/src/simple/example.tsx
-[vertical]: example/src/vertical/example.tsx
-[advanced]: example/src/advanced/example.tsx
