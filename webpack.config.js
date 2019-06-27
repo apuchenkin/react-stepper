@@ -1,15 +1,19 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
   mode: 'development',
 
-  entry: "./src/index.tsx",
+  entry: {
+    'react-stepper': "./src/index.tsx",
+    'react-stepper.min': "./src/index.tsx",
+  },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: "react-stepper.js",
+    filename: "[name].js",
     library: "reactStepper",
     libraryTarget: 'umd'
   },
@@ -64,10 +68,13 @@ module.exports = {
   ],
 
   optimization: {
-    splitChunks: {
-      // include all types of chunks
-      chunks: 'all'
-    }
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true,
+        include: /\.min\.js$/
+      }),
+    ],
   },
 
   externals: [
