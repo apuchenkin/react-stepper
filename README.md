@@ -29,7 +29,7 @@ const StepperExample = () => (
     >
       <Step1 />
     </Step>
-    <Step stepId={STEP2} title="Step Two" description="Name is required">
+    <Step stepId={STEP2} title="Step Two" description="Login is required">
       <Step2 />
     </Step>
     <Step stepId={STEP3} title="Step Three" >
@@ -39,9 +39,9 @@ const StepperExample = () => (
 );
 
 ```
-*Example1: Bascic stepper configuration, where `Step1`, `Step2` and `Step3` is arbitary user defined components*
+*Example1: Basic stepper configuration, where `Step1`, `Step2` and `Step3` is arbitary user defined components*
 
-In order to work with stepper controller we could use provided react context:
+In order to work with stepper API `StepperContext` could be used:
 
 ```jsx
 import {
@@ -59,6 +59,7 @@ const Step1 = ({ vertical = false }) => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    // resolve will set data for current step and proceed to the next step
     resolve("step1 resolved data");
   };
 
@@ -77,7 +78,7 @@ const Step1 = ({ vertical = false }) => {
   );
 };
 ```
-*Example2: Stepper context allows step data resolution. Saved data is accessibble by `getData` method*
+*Example2: `StepperContext` allows step data resolution. Saved data is accessible by `getData` method*
 
 
 ## API
@@ -105,13 +106,13 @@ const Step1 = ({ vertical = false }) => {
   ...
 </Step>
 ```
-*Example: `Step` component*
+*Example3: `Step` component describes step configuration*
 
 | Prop        | Type            | Description                                      |
 |-------------|-----------------|--------------------------------------------------|
 | **title***  | string          | Step title. Required                             |
 | **stepId*** | string \| number | Unique step identifier. Required                |
-| **children*** | ReactNode     | React component that will be rendered when step is activated |
+| **children*** | ReactNode     | React component that will be rendered when step is activated. Required |
 | description | string          | Step description or hint. Optional               |
 | loading     | boolean         | Indicates whether step content is beign loading. |
 | disabled    | boolean         | Indicates whether step is beign disabled         |

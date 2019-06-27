@@ -44,7 +44,7 @@ const StepperExample: React.FunctionComponent = () => {
       <StepperContext.Consumer>
         {stepperContext =>
           stepperContext.getData(STEP1, initial).step2 && (
-            <Step stepId={STEP2} title="Step Two" loading={isLoading(STEP2)} description="Name is required">
+            <Step stepId={STEP2} title="Step Two" loading={isLoading(STEP2)} description="Login is required">
               <Step2 />
             </Step>
           )

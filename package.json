@@ -18,7 +18,8 @@
   "keywords": [
     "stepper",
     "material-design",
-    "react"
+    "react",
+    "typescript"
   ],
   "devDependencies": {
     "autoprefixer": "^9.6.0",
@@ -36,13 +37,13 @@
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.2",
     "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.5"
   },
   "dependencies": {
-    "@material/button": "^2.3.0",
-    "@material/linear-progress": "^2.3.0",
-    "@material/theme": "^1.1.0",
-    "@material/typography": "^2.3.0",
+    "@material/button": "^3.0.0",
+    "@material/linear-progress": "^3.0.0",
+    "@material/theme": "^3.0.0",
+    "@material/typography": "^3.0.0",
     "@types/classnames": "^2.2.8",
     "@types/react": "^16.8.22",
     "@types/react-dom": "^16.8.4",

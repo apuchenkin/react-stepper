@@ -7,3 +7,9 @@ $stepper-color-connector: cornflowerblue;
 
 @import "react-material-stepper/src/index.scss";
 @import "material-components-web/material-components-web";
+
+.mdc-text-field {
+  & + & {
+    margin-left: 20px;
+  }
+}

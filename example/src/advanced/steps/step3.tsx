@@ -22,7 +22,8 @@ const Step3 = () => {
   };
 
   const data1 = getData(STEP1);
-  const data2 = getData(STEP2) || {};
+  const data2 = getData(STEP2, {});
+  const data3 = getData(STEP3, false);
 
   return (
     <StepperContent
@@ -39,15 +40,18 @@ const Step3 = () => {
         </React.Fragment>
       }
     >
-      <fieldset>
-        <label>
-          Step 1 data:
-          <pre>{JSON.stringify(data1)}</pre>
-        </label>
-        <label>
-          Step 2 data: Name: {data2.name}, Email: {data2.email}
-        </label>
-      </fieldset>
+      <section>
+        <h3>Step 1 data</h3>
+        <pre>{JSON.stringify(data1)}</pre>
+      </section>
+      <section>
+        <h3>Step 2 data</h3>
+        <pre>Login: {data2.login}, Email: {data2.email}</pre>
+      </section>
+      <section>
+        <h3>Step 3 data</h3>
+        <pre>{String(data3)}</pre>
+      </section>
     </StepperContent>
   );
 };
